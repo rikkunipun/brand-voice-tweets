@@ -21,7 +21,7 @@ function Tag({ children, className = 'bg-slate-100 text-slate-700 ring-slate-200
   );
 }
 
-function TweetCard({ tweet, check, displayName, avatarClass, onRegenerate, regenerating, anyBusy }) {
+function TweetCard({ tweet, check, maxLength, displayName, avatarClass, onRegenerate, regenerating, anyBusy }) {
   const [showOriginal, setShowOriginal] = useState(false);
   const [copied, setCopied] = useState(false);
   const length = check?.length ?? tweet.text.length;
@@ -58,7 +58,7 @@ function TweetCard({ tweet, check, displayName, avatarClass, onRegenerate, regen
               </button>
             )}
             {tweet.regenerated && <Tag className="bg-slate-100 text-slate-700 ring-slate-300">Regenerated</Tag>}
-            <span className={`ml-auto text-xs tabular-nums ${length > 280 ? 'font-semibold text-red-600' : length > 260 ? 'text-amber-600' : 'text-muted'}`}>{length}/280</span>
+            <span className={`ml-auto text-xs tabular-nums ${length > maxLength ? 'font-semibold text-red-600' : length > maxLength - 20 ? 'text-amber-600' : 'text-muted'}`}>{length}/{maxLength}</span>
           </div>
 
           {tweet.revised && showOriginal && (
@@ -90,7 +90,7 @@ function TweetCard({ tweet, check, displayName, avatarClass, onRegenerate, regen
   );
 }
 
-export default function TweetsView({ tweets, checks, plan, warnings, summary, brandLabel, displayName, stale, busy, onRebuild, onRegenerateAll, onRegenerate, regeneratingSlot, onBack, onStartOver, sampleNote, regenError }) {
+export default function TweetsView({ tweets, checks, plan, basis, maxLength = 280, warnings, summary, brandLabel, displayName, stale, busy, onRebuild, onRegenerateAll, onRegenerate, regeneratingSlot, onBack, onStartOver, sampleNote, regenError }) {
   const [copiedAll, setCopiedAll] = useState(false);
   const avatarClass = AVATAR_COLORS[(brandLabel.length + brandLabel.charCodeAt(0)) % AVATAR_COLORS.length];
   const revised = tweets.filter((t) => t.revised).length;
@@ -144,6 +144,7 @@ export default function TweetsView({ tweets, checks, plan, warnings, summary, br
             </li>
           ))}
         </ul>
+        <p className="mt-3 text-xs text-muted">{basis}</p>
       </Card>
 
       <Card>
@@ -170,6 +171,7 @@ export default function TweetsView({ tweets, checks, plan, warnings, summary, br
             key={t.slot}
             tweet={t}
             check={checks.perTweet.find((p) => p.slot === t.slot)}
+            maxLength={maxLength}
             displayName={brandLabel}
             avatarClass={avatarClass}
             onRegenerate={onRegenerate}

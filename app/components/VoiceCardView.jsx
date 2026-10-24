@@ -90,7 +90,7 @@ function ConflictNotice({ conflicts }) {
   );
 }
 
-export default function VoiceCardView({ card, setCard, research, cardWarnings, builtHumour, onGenerate, onRebuild, outdated, onBack, busy, rebuilding, sampleNote }) {
+export default function VoiceCardView({ card, setCard, research, cardWarnings, builtHumour, toneChanged, basis, onGenerate, onRebuild, outdated, onBack, busy, rebuilding, sampleNote }) {
   const update = (patch) => setCard({ ...card, ...patch });
   const updateRules = (patch) => setCard({ ...card, style_rules: { ...card.style_rules, ...patch } });
   const setTone = (i, patch) =>
@@ -111,6 +111,8 @@ export default function VoiceCardView({ card, setCard, research, cardWarnings, b
 
       <Card title={`Voice Card: ${card.brand_display_name}`} aside={<span className="text-xs text-muted">Editable, one bullet per line</span>}>
         <LinesField id="summary" label="Voice summary" hint="Tweets are written from this card, so an edit applies the next time you generate." value={card.voice_summary} onChange={(voice_summary) => update({ voice_summary })} />
+        {toneChanged && <p role="status" className="mt-2 text-sm text-amber-800">Tone changed. Check the summary still matches.</p>}
+        <p className="mt-2 text-xs text-muted">{basis}</p>
       </Card>
 
       {card.conflicts.length > 0 && <ConflictNotice conflicts={card.conflicts} />}

@@ -1,5 +1,5 @@
 'use client';
-import { INPUT_LIMITS } from '@/lib/config.js';
+import { INPUT_LIMITS, TWEET_LENGTH } from '@/lib/config.js';
 import { AutoTextarea, Button, Card, Counter, Spinner } from './ui.jsx';
 
 export const OBJECTIVES = ['Engagement', 'Promotion', 'Awareness', 'Product launch'];
@@ -32,7 +32,9 @@ function Field({ id, label, hint, optional, required, value, max, children }) {
 
 export default function BrandForm({ values, setValues, onSubmit, onExample, onSample, busy, disabled }) {
   const set = (key) => (e) => setValues({ ...values, [key]: e.target.value });
-  const canSubmit = values.products.trim().length > 0 && !busy && !disabled;
+  const lengthText = String(values.maxLength ?? '').trim();
+  const lengthOk = !lengthText || (/^\d+$/.test(lengthText) && Number(lengthText) >= TWEET_LENGTH.min && Number(lengthText) <= TWEET_LENGTH.max);
+  const canSubmit = values.products.trim().length > 0 && lengthOk && !busy && !disabled;
 
   return (
     <form
@@ -73,6 +75,17 @@ export default function BrandForm({ values, setValues, onSubmit, onExample, onSa
           </Field>
         </div>
 
+        <div className="mt-5 grid gap-5 sm:grid-cols-2">
+          <Field id="website" label="Website" optional value={values.website} max={INPUT_LIMITS.website}
+            hint="Helps research find the right brand when the name is common.">
+            <input id="website" type="url" inputMode="url" className={field} value={values.website} maxLength={INPUT_LIMITS.website} onChange={set('website')} placeholder="e.g. https://www.zomato.com" autoComplete="off" />
+          </Field>
+          <Field id="audience" label="Target audience" optional value={values.audience} max={INPUT_LIMITS.audience}
+            hint="If you fill this in, the card uses it as given.">
+            <input id="audience" className={field} value={values.audience} maxLength={INPUT_LIMITS.audience} onChange={set('audience')} placeholder="e.g. Urban 18-30 year olds who order in late at night" autoComplete="off" />
+          </Field>
+        </div>
+
         <div className="mt-5 grid gap-5">
           <Field id="objective" label="Campaign objective" required value={values.objective}
             hint="Decides the mix of engaging, promotional, witty and informative tweets.">
@@ -81,13 +94,18 @@ export default function BrandForm({ values, setValues, onSubmit, onExample, onSa
             </select>
           </Field>
 
+          <Field id="maxLength" label="Max tweet length" optional hint={`${TWEET_LENGTH.min}-${TWEET_LENGTH.max} characters. Blank means ${TWEET_LENGTH.max}.`}>
+            <input id="maxLength" type="number" inputMode="numeric" min={TWEET_LENGTH.min} max={TWEET_LENGTH.max} className={`${field} sm:max-w-40`} value={values.maxLength} onChange={set('maxLength')} placeholder="280" aria-invalid={!lengthOk} />
+            {!lengthOk && <p role="alert" className="mt-1 text-xs text-red-700">Enter a number from {TWEET_LENGTH.min} to {TWEET_LENGTH.max}, or leave it blank.</p>}
+          </Field>
+
           <Field id="products" label="About the products" required value={values.products} max={INPUT_LIMITS.products}
             hint="What you sell and anything the tweets may mention: product names, flavours, features, offers. Anything not listed here is checked for as unsupported.">
             <AutoTextarea id="products" minRows={3} className={field} value={values.products} maxLength={INPUT_LIMITS.products} onChange={set('products')} placeholder="e.g. Millet-based chips and cookies made in Hyderabad. No maida, no palm oil. Launching a Snack Box sampler with 6 flavours." />
           </Field>
 
           <Field id="pastPosts" label="Past posts" optional value={values.pastPosts} max={INPUT_LIMITS.pastPosts}
-            hint="One post per line. This improves accuracy more than anything else here: a handful of the brand's real posts teaches the voice better than any description.">
+            hint="Paste 3-10 of the brand's real posts, ideally its best-performing ones. One post per line. This improves accuracy more than anything else here.">
             <AutoTextarea id="pastPosts" minRows={5} className={field} value={values.pastPosts} maxLength={INPUT_LIMITS.pastPosts} onChange={set('pastPosts')} placeholder={'Paste 3-10 real posts, one per line'} />
           </Field>
 

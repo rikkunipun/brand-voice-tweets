@@ -41,24 +41,25 @@ const RESEARCH_TTL_MS = 24 * HOUR;
 const MAX_CACHED_BRANDS = 200;
 const researchCache = new Map(); // lowercase brand name + industry -> { at, research }
 
-// Industry is part of the key: the same name can be a different brand (or search) in another category.
-const cacheKey = (brandName, industry = '') => `${brandName.trim().toLowerCase()}|${industry.trim().toLowerCase()}`;
+// Industry and website are part of the key: the same name can be a different brand in another category or at another site.
+const siteKey = (website = '') => website.trim().toLowerCase().replace(/^https?:\/\//, '').replace(/^www\./, '').replace(/\/+$/, '');
+const cacheKey = (brandName, industry = '', website = '') => `${brandName.trim().toLowerCase()}|${industry.trim().toLowerCase()}|${siteKey(website)}`;
 
-export function getCachedResearch(brandName, industry = '', now = Date.now()) {
+export function getCachedResearch(brandName, industry = '', website = '', now = Date.now()) {
   if (!brandName?.trim()) return null;
-  const hit = researchCache.get(cacheKey(brandName, industry));
+  const hit = researchCache.get(cacheKey(brandName, industry, website));
   if (!hit) return null;
   if (now - hit.at > RESEARCH_TTL_MS) {
-    researchCache.delete(cacheKey(brandName, industry));
+    researchCache.delete(cacheKey(brandName, industry, website));
     return null;
   }
   return hit.research;
 }
 
 // Only successful research is cached, so a failed search is retried next time.
-export function setCachedResearch(brandName, industry, research, now = Date.now()) {
+export function setCachedResearch(brandName, industry, website, research, now = Date.now()) {
   if (!brandName?.trim() || research?.status !== 'found') return;
-  researchCache.set(cacheKey(brandName, industry), { at: now, research });
+  researchCache.set(cacheKey(brandName, industry, website), { at: now, research });
   if (researchCache.size > MAX_CACHED_BRANDS) researchCache.delete(researchCache.keys().next().value);
 }
 

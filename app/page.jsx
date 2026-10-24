@@ -8,9 +8,10 @@ import HowItWorks from './components/HowItWorks.jsx';
 import { Button, Notice, ProgressPanel } from './components/ui.jsx';
 import { postJson, streamPost } from './lib/api.js';
 import { APPROACH_DOC_URL, REPO_URL } from './site.js';
-import { snapshotInputs, cleanCard, staleness, tweetsDisplay } from '@/lib/view-state.js';
+import { snapshotInputs, cleanCard, staleness, tweetsDisplay, evidenceBasis, toneKey, toneChanged } from '@/lib/view-state.js';
+import { browserStorage, clearSession, loadSession, saveSession } from './lib/session.js';
 
-const EMPTY_INPUTS = { brandName: '', industry: '', objective: 'Engagement', products: '', toneWords: '', pastPosts: '', instructions: '', research: true };
+const EMPTY_INPUTS = { brandName: '', industry: '', objective: 'Engagement', products: '', toneWords: '', pastPosts: '', instructions: '', research: true, website: '', audience: '', maxLength: '' };
 const EXAMPLES = { zomato: examples['zomato-posts'], millet: examples.millet };
 const STEP_NAMES = ['Details', 'Voice', 'Tweets'];
 
@@ -75,6 +76,35 @@ export default function Home() {
   const [regeneratingSlot, setRegeneratingSlot] = useState(null);
   const [sample, setSample] = useState('');
   const top = useRef(null);
+  const restored = useRef(false); // saving waits until the saved session has been read, or it would be overwritten
+
+  // Restore the work after a refresh (sessionStorage; silently skipped if unavailable).
+  useEffect(() => {
+    const s = browserStorage() && loadSession(browserStorage());
+    if (s) {
+      setInputs({ ...EMPTY_INPUTS, ...s.inputs });
+      if (s.card) {
+        setCard(s.card);
+        setCardVersion((v) => v + 1);
+        setResearch(s.research || null);
+        setCardWarnings(s.cardWarnings || []);
+        setCardSnap(s.cardSnap || null);
+        setBuiltHumour(s.builtHumour !== false);
+      }
+      if (s.tweetResult && s.tweetSnap) {
+        setTweetResult({ warnings: [], ...s.tweetResult });
+        setTweetSnap(s.tweetSnap);
+      }
+      setSample(s.sample || '');
+      setStep(s.card ? (s.step === 3 && s.tweetResult && s.tweetSnap ? 3 : s.step === 2 ? 2 : 1) : 1);
+    }
+    restored.current = true;
+  }, []);
+
+  useEffect(() => {
+    if (!restored.current || !browserStorage()) return;
+    saveSession(browserStorage(), { step, inputs, card, research, cardWarnings, cardSnap, builtHumour, tweetResult, tweetSnap, sample });
+  }, [step, inputs, card, research, cardWarnings, cardSnap, builtHumour, tweetResult, tweetSnap, sample]);
 
   useEffect(() => {
     if (!busy) return undefined;
@@ -101,9 +131,9 @@ export default function Home() {
       if (!res.ok) throw new Error();
       const s = await res.json();
       setInputs({ ...EMPTY_INPUTS, ...s.inputs });
-      setCardSnap({ inputs: snapshotInputs(s.inputs) });
+      setCardSnap({ inputs: snapshotInputs(s.inputs), tone: toneKey(s.card) });
       setBuiltHumour(s.card.humour_allowed !== false);
-      setTweetSnap({ inputs: snapshotInputs(s.inputs), card: cleanCard(s.card) });
+      setTweetSnap({ inputs: snapshotInputs(s.inputs), card: cleanCard(s.card), research: s.research });
       setCard(s.card);
       setCardVersion((v) => v + 1);
       setResearch(s.research);
@@ -126,7 +156,7 @@ export default function Home() {
       const result = await streamPost('/api/analyze', { inputs: sent }, (ev) => {
         if (ev.type === 'progress') setSeen((s) => [...s, ev.step === 'research' ? 'research' : ev.cached ? 'saved' : ev.step]);
       });
-      setCardSnap({ inputs: sent });
+      setCardSnap({ inputs: sent, tone: toneKey(result.card) });
       setBuiltHumour(result.card.humour_allowed !== false);
       setCard(result.card);
       setCardVersion((v) => v + 1);
@@ -155,7 +185,7 @@ export default function Home() {
         if (ev.type === 'progress') setSeen((s) => [...s, ev.step]);
       });
       setCard(cleaned);
-      setTweetSnap({ inputs: used, card: cleaned });
+      setTweetSnap({ inputs: used, card: cleaned, research });
       setTweetResult({ plan: result.plan, tweets: result.tweets, checks: result.checks, warnings: result.warnings || [] });
       setRegenError('');
       setStep(3);
@@ -189,6 +219,7 @@ export default function Home() {
     setSample('');
     setError('');
     setInputs(EMPTY_INPUTS);
+    if (browserStorage()) clearSession(browserStorage());
   }
 
   const stale = staleness({ inputs, card, cardSnap, tweetSnap });
@@ -232,12 +263,12 @@ export default function Home() {
 
         {step === 2 && card && (
           <VoiceCardView key={cardVersion} card={card} setCard={setCard} research={research} cardWarnings={cardWarnings}
-            builtHumour={builtHumour} onGenerate={generate} onRebuild={analyze} outdated={stale.cardOutdated} onBack={() => setStep(1)} busy={busy === 'generate'} rebuilding={busy === 'analyze'} sampleNote={sampleNote} />
+            builtHumour={builtHumour} toneChanged={toneChanged(card, cardSnap?.tone)} basis={evidenceBasis({ inputs: cardSnap?.inputs, research, card })} onGenerate={generate} onRebuild={analyze} outdated={stale.cardOutdated} onBack={() => setStep(1)} busy={busy === 'generate'} rebuilding={busy === 'analyze'} sampleNote={sampleNote} />
         )}
 
         {step === 3 && tweetResult && tweetSnap && (
           <TweetsView tweets={tweetResult.tweets} checks={tweetResult.checks} plan={tweetResult.plan} warnings={tweetResult.warnings || []}
-            {...tweetsDisplay(tweetSnap)} stale={stale.tweets} onRebuild={analyze} onRegenerateAll={generate} busy={Boolean(busy)}
+            {...tweetsDisplay(tweetSnap)} basis={evidenceBasis({ inputs: tweetSnap.inputs, research: tweetSnap.research, card: tweetSnap.card })} maxLength={tweetSnap.inputs.maxLength} stale={stale.tweets} onRebuild={analyze} onRegenerateAll={generate} busy={Boolean(busy)}
             onRegenerate={regenerate} regeneratingSlot={regeneratingSlot} onBack={() => setStep(2)} onStartOver={startOver}
             sampleNote={sampleNote} regenError={regenError} />
         )}

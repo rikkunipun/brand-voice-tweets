@@ -5,7 +5,11 @@ import { checkTweet, checkSet, verifyVoiceExamples } from '../lib/checks.js';
 import { planMix, ANGLES } from '../lib/plan.js';
 import { buildTweetInput } from '../lib/prompts.js';
 import { runPipeline, analyzeBrand, generateTweets, normalizeInputs, researchBrand } from '../lib/pipeline.js';
-import { snapshotInputs, staleness, tweetsDisplay, conflictSummary, OUTDATED_TEXT } from '../lib/view-state.js';
+import { snapshotInputs, staleness, tweetsDisplay, conflictSummary, OUTDATED_TEXT, evidenceBasis, toneKey, toneChanged } from '../lib/view-state.js';
+import { buildBrief, buildResearchInput, tweetInstructions, criticInstructions, writerLimit } from '../lib/prompts.js';
+import { normalizeMaxLength } from '../lib/config.js';
+import { saveSession, loadSession, clearSession, SESSION_KEY } from '../app/lib/session.js';
+import { APPROACH_DOC_URL } from '../app/site.js';
 import { ANALYSIS_INSTRUCTIONS, TWEET_INSTRUCTIONS } from '../lib/prompts.js';
 import { VOICE_CARD_SCHEMA } from '../lib/schemas.js';
 import { readFile } from 'node:fs/promises';
@@ -417,12 +421,12 @@ await test('rate limit is per visitor and per action, and frees up after the win
 await test('research cache: case-insensitive, 24h expiry, found only', () => {
   resetLimitsForTests();
   const research = { status: 'found', notes: 'n', sources: [] };
-  setCachedResearch('Zomato', '', research, 0);
-  assert.equal(getCachedResearch('  zomato ', '', 1000), research);
-  assert.equal(getCachedResearch('zomato', '', 24 * 60 * 60 * 1000 + 1), null);
-  setCachedResearch('Failing Brand', '', { status: 'failed', notes: '' }, 0);
-  assert.equal(getCachedResearch('failing brand', '', 1), null);
-  assert.equal(getCachedResearch('', '', 1), null);
+  setCachedResearch('Zomato', '', '', research, 0);
+  assert.equal(getCachedResearch('  zomato ', '', '', 1000), research);
+  assert.equal(getCachedResearch('zomato', '', '', 24 * 60 * 60 * 1000 + 1), null);
+  setCachedResearch('Failing Brand', '', '', { status: 'failed', notes: '' }, 0);
+  assert.equal(getCachedResearch('failing brand', '', '', 1), null);
+  assert.equal(getCachedResearch('', '', '', 1), null);
 });
 
 await test('the API returns a friendly 429 with Retry-After once a visitor is over the limit', async () => {
@@ -587,11 +591,11 @@ await test('the research cache key includes the industry', () => {
   resetLimitsForTests();
   const food = { status: 'found', notes: 'food', sources: [] };
   const bank = { status: 'found', notes: 'bank', sources: [] };
-  setCachedResearch('Apex', 'Food', food, 0);
-  setCachedResearch('Apex', 'Banking', bank, 0);
-  assert.equal(getCachedResearch('apex', ' food ', 1), food);
-  assert.equal(getCachedResearch('Apex', 'Banking', 1), bank);
-  assert.equal(getCachedResearch('Apex', '', 1), null);
+  setCachedResearch('Apex', 'Food', '', food, 0);
+  setCachedResearch('Apex', 'Banking', '', bank, 0);
+  assert.equal(getCachedResearch('apex', ' food ', '', 1), food);
+  assert.equal(getCachedResearch('Apex', 'Banking', '', 1), bank);
+  assert.equal(getCachedResearch('Apex', '', '', 1), null);
 });
 
 console.log('review fixes: humour ban');
@@ -678,6 +682,169 @@ await test('a revision that only removes issues is still accepted', async () => 
   const res = await generateTweets(inputs, card, { client });
   assert.equal(res.rejectedRevisions.length, 0);
   assert.equal(res.tweets[9].revised, true);
+});
+
+
+console.log('second review');
+const sample = async (n) => JSON.parse(await readFile(new URL(`../public/samples/${n}.json`, import.meta.url), 'utf8'));
+const src = (f) => readFile(new URL(f, import.meta.url), 'utf8');
+
+await test('the footer links to the approach doc', () => {
+  assert.equal(APPROACH_DOC_URL, 'https://docs.google.com/document/d/1RYmdT0OJA04qmrXR-W9Ba-y6BDPwihgxdZuK6A5IGKA/edit');
+});
+await test('evidence basis line: pasted posts, research sources, or the brief only', async () => {
+  const z = await sample('zomato');
+  assert.equal(evidenceBasis({ inputs: z.inputs, research: z.research, card: z.card }), 'Based on: 6 pasted posts · web research (6 sources)');
+  const m = await sample('millet');
+  assert.equal(evidenceBasis({ inputs: m.inputs, research: m.research, card: m.card }), 'Based on: your brief only');
+  assert.equal(evidenceBasis({ inputs: { pastPosts: 'one post' }, research: { status: 'found', sources: [{}] }, card }), 'Based on: 1 pasted post · web research (1 source)');
+  assert.equal(evidenceBasis({ inputs: {}, research: { status: 'failed', sources: [] }, card }), 'Based on: your brief only');
+});
+await test('evidence basis line carries the qualification from the card assumptions (no X posts, website/LinkedIn)', async () => {
+  const c = await sample('cred');
+  const line = evidenceBasis({ inputs: c.inputs, research: c.research, card: c.card });
+  assert.match(line, /^Based on: web research \(6 sources\) · no X posts found/);
+  assert.match(line, /website, campaign pages or LinkedIn/);
+  const li = evidenceBasis({ inputs: {}, research: null, card: { ...card, assumptions: ['LinkedIn posts were the only source, so the corporate voice was adapted for X.'] } });
+  assert.match(li, /voice adapted from/);
+  assert.ok(!evidenceBasis({ inputs: {}, research: null, card: { ...card, assumptions: ['Avoid a corporate tone.'] } }).includes('adapted'));
+});
+await test('the basis line is shown under the summary on the Voice and Tweets pages', async () => {
+  assert.ok((await src('../app/components/VoiceCardView.jsx')).includes('{basis}'));
+  assert.ok((await src('../app/components/TweetsView.jsx')).includes('{basis}'));
+});
+await test('website goes into the research input, not the brief; it is part of the cache key', () => {
+  const i = normalizeInputs({ ...inputs, website: ' https://www.test.com/ ', audience: 'Gen Z gamers' });
+  assert.ok(buildResearchInput(i).includes('https://www.test.com/'));
+  assert.ok(!buildBrief(i).includes('test.com'));
+  resetLimitsForTests();
+  const a = { status: 'found', notes: 'a', sources: [] };
+  const b = { status: 'found', notes: 'b', sources: [] };
+  setCachedResearch('Apex', 'Food', 'https://www.apex.com/', a, 0);
+  setCachedResearch('Apex', 'Food', 'https://apex.in', b, 0);
+  assert.equal(getCachedResearch('apex', 'food', 'apex.com', 1), a);
+  assert.equal(getCachedResearch('apex', 'food', 'APEX.in/', 1), b);
+  assert.equal(getCachedResearch('apex', 'food', '', 1), null);
+});
+await test('the target audience goes into the brief and a typed audience is labelled user-defined', async () => {
+  assert.ok(buildBrief(normalizeInputs({ ...inputs, audience: 'Gen Z gamers' })).includes('Target audience: Gen Z gamers'));
+  const client = mockClient({ criticReviews: [] });
+  const typed = await analyzeBrand({ ...inputs, audience: 'Gen Z gamers' }, { client, skipResearch: true });
+  assert.equal(typed.card.target_audience.evidence, 'user-defined'); // the mock card said "inferred"
+  const none = await analyzeBrand(inputs, { client, skipResearch: true });
+  assert.equal(none.card.target_audience.evidence, 'inferred');
+});
+await test('max tweet length: 60-280, default 280, bad values clamp or default', () => {
+  assert.equal(normalizeMaxLength(''), 280);
+  assert.equal(normalizeMaxLength(undefined), 280);
+  assert.equal(normalizeMaxLength('abc'), 280);
+  assert.equal(normalizeMaxLength('120'), 120);
+  assert.equal(normalizeMaxLength(20), 60);
+  assert.equal(normalizeMaxLength(999), 280);
+  assert.equal(normalizeInputs(inputs).maxLength, 280);
+});
+await test('a lower max length changes the writer and editor wording; the default keeps 260', () => {
+  assert.equal(writerLimit(280), 260);
+  assert.equal(writerLimit(100), 100);
+  assert.ok(tweetInstructions(100).includes('At most 100 characters.') && !tweetInstructions(100).includes('At most 260'));
+  assert.ok(tweetInstructions(280).includes('At most 260 characters.'));
+  assert.ok(criticInstructions(100).includes('at most 100 characters'));
+  assert.ok(criticInstructions(280).includes('at most 260 characters'));
+});
+await test('too_long uses the chosen max length', () => {
+  const text = 'x'.repeat(120);
+  assert.ok(!checkTweet(text, card).issues.some((i) => i.code === 'too_long'));
+  const r = checkTweet(text, card, { brief: '', maxLength: 100 });
+  assert.ok(r.issues.some((i) => i.code === 'too_long' && i.message === 'Too long: 120/100 characters'));
+});
+await test('the pipeline sends the lower limit to the writer and flags over-long tweets', async () => {
+  const seen = [];
+  const base = mockClient({ criticReviews: [] });
+  const long = 'Chai and millet chips make a very long evening snack plan that nobody asked for, honestly.'; // over 60
+  const client = {
+    calls: base.calls,
+    responses: {
+      async create(params) {
+        const name = params.text?.format?.name;
+        seen.push([name, params.instructions]);
+        if (name === 'tweets') {
+          const tweets = Array.from({ length: 10 }, (_, i) => ({ slot: i + 1, style: 'engaging', text: `${long} ${'ab'[i % 2]}${i}`, why: 'x' }));
+          return { status: 'completed', output_text: JSON.stringify({ tweets }), output: [], usage: { input_tokens: 1, output_tokens: 1, output_tokens_details: {} } };
+        }
+        return base.responses.create(params);
+      },
+    },
+  };
+  const res = await generateTweets(normalizeInputs({ ...inputs, maxLength: '30' }), card, { client }); // clamps to 60
+  assert.ok(seen.find(([n]) => n === 'tweets')[1].includes('At most 60 characters.'));
+  assert.ok(seen.find(([n]) => n === 'critic')[1].includes('at most 60 characters'));
+  assert.ok(res.checks.perTweet.some((p) => p.issues.some((i) => i.code === 'too_long' && i.message.endsWith('/60 characters'))));
+});
+await test('the tweet counter shows x/N and the form validates the range', async () => {
+  const tv = await src('../app/components/TweetsView.jsx');
+  assert.ok(tv.includes('{length}/{maxLength}') && !tv.includes('/280</span>'));
+  assert.ok((await src('../app/page.jsx')).includes('maxLength={tweetSnap.inputs.maxLength}'));
+  const form = await src('../app/components/BrandForm.jsx');
+  assert.ok(form.includes('Max tweet length') && form.includes('lengthOk'));
+});
+await test('a changed max length or audience outdates the card and tweets', () => {
+  const base = { inputs: briefA, card, cardSnap: { inputs: snapshotInputs(briefA) }, tweetSnap: { inputs: snapshotInputs(briefA), card: { ...card } } };
+  assert.deepEqual(staleness({ ...base, inputs: { ...briefA, maxLength: '100' } }), { cardOutdated: true, tweets: 'brief' });
+  assert.deepEqual(staleness({ ...base, inputs: { ...briefA, audience: 'x' } }), { cardOutdated: true, tweets: 'brief' });
+  assert.deepEqual(staleness({ ...base, inputs: { ...briefA, maxLength: '280' } }), { cardOutdated: false, tweets: null });
+});
+await test('saved samples (no website, audience or max length) still work', async () => {
+  for (const n of ['zomato', 'cred', 'millet']) {
+    const s = await sample(n);
+    const snap = snapshotInputs(s.inputs);
+    assert.equal(snap.maxLength, 280);
+    assert.equal(snap.website, '');
+    assert.equal(normalizeInputs(s.inputs).maxLength, 280);
+    assert.ok(validateCard(s.card));
+    assert.deepEqual(staleness({ inputs: { ...s.inputs, research: true }, card: s.card, cardSnap: { inputs: snap }, tweetSnap: { inputs: snap, card: s.card } }), { cardOutdated: false, tweets: null });
+  }
+});
+await test('tone edits show a note next to the summary', async () => {
+  const c = { ...card, tone: [{ trait: 'Dry', detail: 'Deadpan', evidence: 'inferred' }] };
+  const built = toneKey(c);
+  assert.equal(toneChanged(c, built), false);
+  assert.equal(toneChanged({ ...c, tone: [{ ...c.tone[0], trait: 'Warm' }] }, built), true);
+  assert.equal(toneChanged({ ...c, tone: [...c.tone, { trait: '', detail: '', evidence: 'user-defined' }] }, built), false);
+  assert.equal(toneChanged(c, undefined), false);
+  assert.ok((await src('../app/components/VoiceCardView.jsx')).includes('Tone changed. Check the summary still matches.'));
+});
+await test('past-posts hint', async () => {
+  assert.ok((await src('../app/components/BrandForm.jsx')).includes("Paste 3-10 of the brand's real posts, ideally its best-performing ones."));
+});
+const memoryStorage = () => { const m = new Map(); return { getItem: (k) => m.get(k) ?? null, setItem: (k, v) => m.set(k, v), removeItem: (k) => m.delete(k), m }; };
+await test('session: brief, card and tweets survive a save and load; start over clears them', () => {
+  const st = memoryStorage();
+  const state = { step: 3, inputs: { products: 'p' }, card, tweetResult: { tweets: [{ slot: 1 }], checks: {} }, tweetSnap: { inputs: {}, card } };
+  assert.equal(saveSession(st, state), true);
+  const back = loadSession(st);
+  assert.equal(back.step, 3);
+  assert.deepEqual(back.card, card);
+  assert.equal(back.tweetResult.tweets.length, 1);
+  clearSession(st);
+  assert.equal(loadSession(st), null);
+});
+await test('session: broken, foreign or unavailable storage never throws', () => {
+  const st = memoryStorage();
+  st.setItem(SESSION_KEY, '{not json');
+  assert.equal(loadSession(st), null);
+  st.setItem(SESSION_KEY, JSON.stringify({ v: 2, inputs: {} }));
+  assert.equal(loadSession(st), null);
+  st.setItem(SESSION_KEY, JSON.stringify({ v: 1, inputs: {}, card: { voice_summary: 'oops' } }));
+  assert.equal(loadSession(st), null);
+  const blocked = { getItem() { throw new Error('denied'); }, setItem() { throw new Error('quota'); }, removeItem() { throw new Error('denied'); } };
+  assert.equal(saveSession(blocked, { inputs: {} }), false);
+  assert.equal(loadSession(blocked), null);
+  assert.doesNotThrow(() => clearSession(blocked));
+});
+await test('the page restores on load, saves on change and clears on Start over', async () => {
+  const page = await src('../app/page.jsx');
+  assert.ok(page.includes('loadSession(browserStorage())') && page.includes('saveSession(browserStorage()'));
+  assert.ok(/function startOver\(\) \{[\s\S]*clearSession\(browserStorage\(\)\)/.test(page));
 });
 
 console.log('blind eval helpers');

@@ -29,14 +29,14 @@ export async function POST(request) {
     } else if (!inputs.research) {
       research = { status: 'skipped', reason: 'research turned off', notes: '', sources: [] };
     } else {
-      const hit = getCachedResearch(inputs.brandName, inputs.industry);
+      const hit = getCachedResearch(inputs.brandName, inputs.industry, inputs.website);
       if (hit) {
         research = hit;
         cached = true;
       } else {
         send({ type: 'progress', step: 'research' });
         research = await researchBrand(inputs, { meter });
-        setCachedResearch(inputs.brandName, inputs.industry, research);
+        setCachedResearch(inputs.brandName, inputs.industry, inputs.website, research);
       }
     }
     send({ type: 'progress', step: 'analysis', cached });

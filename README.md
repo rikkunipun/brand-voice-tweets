@@ -2,6 +2,8 @@
 
 Generates 10 on-brand tweets for any brand, with a transparent Voice Card showing where each trait came from.
 
+Brand Voice Tweets takes a brand's details (name, products, tone, optionally its website, audience and real past posts), optionally researches the brand online, and builds a Voice Card: a short voice summary plus tone, themes and style rules, each labelled with where it came from (your input, your posts, the web, or inference). From that card it writes 10 tweets across engaging, promotional, witty and informative styles, runs code checks on them, and lets an editor pass rewrite weak ones; every edit is visible and nothing is hidden. It was built by Nipun Rikapu for the Walnut Folks / Confluencr assignment. **[Try the live tool](https://brand-voice-tweets.vercel.app)** · **[Read the approach doc](https://docs.google.com/document/d/1RYmdT0OJA04qmrXR-W9Ba-y6BDPwihgxdZuK6A5IGKA/edit)**
+
 ## Pipeline
 
 1. **Research (optional):** if a brand name is given, an LLM with web search looks for the brand's *own* posts and campaigns. Observations are kept separate from third-party commentary. If research fails or no name is given, the run continues on user inputs.
@@ -19,7 +21,7 @@ cp .env.example .env        # add your OPENAI_API_KEY
 npm run dev                 # http://localhost:3000
 ```
 
-Three steps on one page: brand details, an editable Voice Card (every trait carries an evidence chip; edits or a changed brief mark earlier results "Outdated"), then 10 tweets styled like X posts with Copy, Copy all and per-tweet Regenerate. The sample picker (Zomato with real posts, CRED, a no-name millet brand) loads a saved result with no API call. The API key stays on the server; per-visitor rate limits and a 24-hour research cache are in `server/limits.js`.
+Three steps on one page (your work survives a refresh and is cleared by Start over): brand details, an editable Voice Card (every trait carries an evidence chip; edits or a changed brief mark earlier results "Outdated"), then 10 tweets styled like X posts with Copy, Copy all and per-tweet Regenerate. The sample picker (Zomato with real posts, CRED, a no-name millet brand) loads a saved result with no API call. The API key stays on the server; per-visitor rate limits and a 24-hour research cache are in `server/limits.js`.
 
 ## Run the pipeline from the command line
 
