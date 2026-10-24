@@ -1,0 +1,12 @@
+node_modules/
+.next/
+.vercel/
+outputs/
+
+# Secrets: never commit. .env.example (no values) is the only env file that is tracked.
+.env
+.env.*
+!.env.example
+
+.DS_Store
+*.log

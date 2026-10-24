@@ -1,0 +1,30 @@
+{
+  "name": "brand-voice-tweets",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Generates 10 on-brand tweets from a Voice Card built from user input, pasted posts and optional web research.",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "check-access": "node --env-file=.env scripts/check-access.mjs",
+    "test:offline": "node scripts/test-offline.mjs",
+    "test:pipeline": "node --env-file=.env scripts/test-pipeline.mjs"
+  },
+  "dependencies": {
+    "next": "^16.4.3",
+    "openai": "^7.43.0",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1"
+  },
+  "engines": {
+    "node": ">=20.6"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.3.3",
+    "postcss": "^8.5.31",
+    "puppeteer-core": "^25.16.0",
+    "tailwindcss": "^4.3.3"
+  }
+}

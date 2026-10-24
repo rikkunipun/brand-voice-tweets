@@ -1,0 +1,47 @@
+{
+  "zomato": {
+    "brandName": "Zomato",
+    "industry": "Food delivery and dining out",
+    "objective": "Engagement",
+    "products": "Food delivery app in India, plus restaurant discovery and table bookings for dining out.",
+    "toneWords": "",
+    "pastPosts": "",
+    "instructions": ""
+  },
+  "cred": {
+    "brandName": "CRED",
+    "industry": "Fintech, credit card bill payments",
+    "objective": "Awareness",
+    "products": "App for paying credit card bills that rewards members for paying on time, with members-only rewards and offers.",
+    "toneWords": "premium, understated",
+    "pastPosts": "",
+    "instructions": ""
+  },
+  "millet": {
+    "brandName": "",
+    "industry": "Healthy snacks, D2C",
+    "objective": "Promotion",
+    "products": "Millet-based chips and cookies made in Hyderabad. No maida, no palm oil. Sold on our website and Instagram. Launching a Snack Box sampler with 6 flavours.",
+    "toneWords": "warm, playful, a little desi",
+    "pastPosts": "",
+    "instructions": "Use Hinglish sparingly. Never mention competitors."
+  },
+  "zomato-rebrand": {
+    "brandName": "Zomato",
+    "industry": "Food delivery and dining out",
+    "objective": "Awareness",
+    "products": "Food delivery app in India, plus restaurant discovery and table bookings for dining out.",
+    "toneWords": "premium, minimal, calm",
+    "pastPosts": "",
+    "instructions": "We are moving away from memes. No slang, no memes, no emoji."
+  },
+  "zomato-posts": {
+    "brandName": "Zomato",
+    "industry": "Food delivery and dining out",
+    "objective": "Engagement",
+    "products": "Food delivery app in India, plus restaurant discovery and table bookings for dining out.",
+    "toneWords": "",
+    "pastPosts": "we have so many options, we feel like a dating app somedays\nThis chapter of my life is called do it for a salary.\nin case you don't have a wife, feel free to stare at your order arriving on the app\nmore people than you think leave the delivery instruction 'jaate hue motar band kar dena'\ne = mc² (energy = milk x chai patti x cheeni)\ngentle reminder to work hard so your manager can taste success",
+    "instructions": ""
+  }
+}
