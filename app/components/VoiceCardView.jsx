@@ -90,7 +90,7 @@ function ConflictNotice({ conflicts }) {
   );
 }
 
-export default function VoiceCardView({ card, setCard, research, cardWarnings, onGenerate, onRebuild, outdated, onBack, busy, rebuilding, sampleNote }) {
+export default function VoiceCardView({ card, setCard, research, cardWarnings, builtHumour, onGenerate, onRebuild, outdated, onBack, busy, rebuilding, sampleNote }) {
   const update = (patch) => setCard({ ...card, ...patch });
   const updateRules = (patch) => setCard({ ...card, style_rules: { ...card.style_rules, ...patch } });
   const setTone = (i, patch) =>
@@ -171,7 +171,7 @@ export default function VoiceCardView({ card, setCard, research, cardWarnings, o
         </Section>
       )}
 
-      <Section title="Audience and style rules" meta="Emoji and hashtag levels are editable">
+      <Section title="Audience and style rules" meta="Emoji, hashtags and humour are editable">
         <div className="flex items-start gap-2 text-sm">
           <span className="font-medium">Audience:</span>
           <span className="flex-1">{card.target_audience.description}</span>
@@ -187,6 +187,15 @@ export default function VoiceCardView({ card, setCard, research, cardWarnings, o
             </div>
           )}
         </dl>
+        <div className="mt-4 flex flex-wrap items-center gap-2">
+          <label className="flex items-center gap-2 text-sm font-medium">
+            <input type="checkbox" className="h-4 w-4 accent-[var(--color-brand)]" checked={card.humour_allowed !== false}
+              onChange={(e) => update({ humour_allowed: e.target.checked })} />
+            Humour allowed
+          </label>
+          {(card.humour_allowed !== false) !== builtHumour && <EvidenceChip evidence="user-defined" />}
+          <span className="text-xs text-muted">Off replaces the witty slots with engaging and informative ones.</span>
+        </div>
         <div className="mt-4 grid max-w-md grid-cols-2 gap-3">
           <div>
             <label htmlFor="emoji" className="mb-1 block text-sm font-medium">Emoji</label>

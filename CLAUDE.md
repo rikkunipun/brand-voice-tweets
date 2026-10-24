@@ -79,7 +79,7 @@ lib/prompts.js, the angle list in lib/plan.js and the check thresholds are froze
 - Angle templates recur across brands: the same four angles per style are reused for every brand, so tweets in different sets can share a shape (this-or-that, fill in the blank, fake equation).
 - Research sources are listed for the whole lookup but not attached to individual findings, so a trait labelled `web-supported` cannot be traced to one source.
 - Custom length limits are not enforced in code: the 260-character target and 280 hard limit are fixed, and a brand instruction like "under 100 characters" is only followed by the writer, not checked.
-- `humour_allowed` is the model's reading of the user's tone words and instructions; nothing in code verifies it, and a ban expressed in unusual wording can be missed. The editable card has no toggle for it yet.
+- `humour_allowed` is the model's reading of the user's tone words and instructions; nothing in code verifies it, and a ban expressed in unusual wording can be missed. The card has a "Humour allowed" toggle (style rules) to override it; changing it is a card edit and shows a user-defined chip.
 - The conflict banner's winner is read from resolution wording by keyword; unclear wording gets the neutral line.
 - An outdated tweet set can still be copied or have single tweets regenerated (from its own snapshot) until it is rebuilt.
 

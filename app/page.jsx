@@ -61,6 +61,7 @@ export default function Home() {
   const [inputs, setInputs] = useState(EMPTY_INPUTS);
   const [card, setCard] = useState(null);
   const [cardVersion, setCardVersion] = useState(0);
+  const [builtHumour, setBuiltHumour] = useState(true); // humour_allowed as the model set it; a different value means the user changed it
   const [research, setResearch] = useState(null);
   const [cardSnap, setCardSnap] = useState(null); // { inputs }: the brief the current card was built from
   const [tweetSnap, setTweetSnap] = useState(null); // { inputs, card }: what the current tweets were written from
@@ -101,6 +102,7 @@ export default function Home() {
       const s = await res.json();
       setInputs({ ...EMPTY_INPUTS, ...s.inputs });
       setCardSnap({ inputs: snapshotInputs(s.inputs) });
+      setBuiltHumour(s.card.humour_allowed !== false);
       setTweetSnap({ inputs: snapshotInputs(s.inputs), card: cleanCard(s.card) });
       setCard(s.card);
       setCardVersion((v) => v + 1);
@@ -125,6 +127,7 @@ export default function Home() {
         if (ev.type === 'progress') setSeen((s) => [...s, ev.step === 'research' ? 'research' : ev.cached ? 'saved' : ev.step]);
       });
       setCardSnap({ inputs: sent });
+      setBuiltHumour(result.card.humour_allowed !== false);
       setCard(result.card);
       setCardVersion((v) => v + 1);
       setResearch(result.research);
@@ -229,7 +232,7 @@ export default function Home() {
 
         {step === 2 && card && (
           <VoiceCardView key={cardVersion} card={card} setCard={setCard} research={research} cardWarnings={cardWarnings}
-            onGenerate={generate} onRebuild={analyze} outdated={stale.cardOutdated} onBack={() => setStep(1)} busy={busy === 'generate'} rebuilding={busy === 'analyze'} sampleNote={sampleNote} />
+            builtHumour={builtHumour} onGenerate={generate} onRebuild={analyze} outdated={stale.cardOutdated} onBack={() => setStep(1)} busy={busy === 'generate'} rebuilding={busy === 'analyze'} sampleNote={sampleNote} />
         )}
 
         {step === 3 && tweetResult && tweetSnap && (

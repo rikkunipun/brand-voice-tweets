@@ -636,6 +636,13 @@ await test('the tweets page shows the humour notice and the form has the researc
   assert.ok(form.includes('Research this brand online') && form.includes('adds about 30 seconds'));
 });
 
+await test('the humour toggle is a card edit (outdates tweets) and is labelled user-defined', async () => {
+  assert.equal(staleness(snapState({ card: { humour_allowed: false } })).tweets, 'card');
+  const v = await readFile(new URL('../app/components/VoiceCardView.jsx', import.meta.url), 'utf8');
+  assert.ok(v.includes('Humour allowed') && v.includes('update({ humour_allowed: e.target.checked })'));
+  assert.ok(v.includes('evidence="user-defined"') && v.includes('!== builtHumour'));
+});
+
 console.log('review fixes: robustness');
 await test('if the critic call fails, the drafts come back with a warning instead of an error', async () => {
   const base = mockClient({ criticReviews: [] });
