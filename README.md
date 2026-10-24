@@ -19,7 +19,7 @@ cp .env.example .env        # add your OPENAI_API_KEY
 npm run dev                 # http://localhost:3000
 ```
 
-Three steps on one page: brand details, an editable Voice Card (every trait carries an evidence chip), then 10 tweets styled like X posts with Copy, Copy all and per-tweet Regenerate. The sample picker (Zomato with real posts, CRED, a no-name millet brand) loads a saved result with no API call. The API key stays on the server; per-visitor rate limits and a 24-hour research cache are in `server/limits.js`.
+Three steps on one page: brand details, an editable Voice Card (every trait carries an evidence chip; edits or a changed brief mark earlier results "Outdated"), then 10 tweets styled like X posts with Copy, Copy all and per-tweet Regenerate. The sample picker (Zomato with real posts, CRED, a no-name millet brand) loads a saved result with no API call. The API key stays on the server; per-visitor rate limits and a 24-hour research cache are in `server/limits.js`.
 
 ## Run the pipeline from the command line
 

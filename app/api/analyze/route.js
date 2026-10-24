@@ -26,15 +26,17 @@ export async function POST(request) {
     let cached = false;
     if (!inputs.brandName) {
       research = { status: 'skipped', reason: 'no brand name given', notes: '', sources: [] };
+    } else if (!inputs.research) {
+      research = { status: 'skipped', reason: 'research turned off', notes: '', sources: [] };
     } else {
-      const hit = getCachedResearch(inputs.brandName);
+      const hit = getCachedResearch(inputs.brandName, inputs.industry);
       if (hit) {
         research = hit;
         cached = true;
       } else {
         send({ type: 'progress', step: 'research' });
         research = await researchBrand(inputs, { meter });
-        setCachedResearch(inputs.brandName, research);
+        setCachedResearch(inputs.brandName, inputs.industry, research);
       }
     }
     send({ type: 'progress', step: 'analysis', cached });

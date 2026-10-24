@@ -4,7 +4,11 @@ import assert from 'node:assert/strict';
 import { checkTweet, checkSet, verifyVoiceExamples } from '../lib/checks.js';
 import { planMix, ANGLES } from '../lib/plan.js';
 import { buildTweetInput } from '../lib/prompts.js';
-import { runPipeline, analyzeBrand } from '../lib/pipeline.js';
+import { runPipeline, analyzeBrand, generateTweets, normalizeInputs, researchBrand } from '../lib/pipeline.js';
+import { snapshotInputs, staleness, tweetsDisplay, conflictSummary, OUTDATED_TEXT } from '../lib/view-state.js';
+import { ANALYSIS_INSTRUCTIONS, TWEET_INSTRUCTIONS } from '../lib/prompts.js';
+import { VOICE_CARD_SCHEMA } from '../lib/schemas.js';
+import { readFile } from 'node:fs/promises';
 import { createMeter, estimateCost } from '../lib/openai.js';
 import { regenerateTweet } from '../lib/pipeline.js';
 import { validateCard, validateTweets } from '../lib/card.js';
@@ -27,6 +31,7 @@ async function test(name, fn) {
 const card = {
   brand_display_name: 'Test',
   voice_summary: ['a'],
+  humour_allowed: true,
   tone: [],
   target_audience: { description: 'x', evidence: 'inferred' },
   content_themes: [],
@@ -412,12 +417,12 @@ await test('rate limit is per visitor and per action, and frees up after the win
 await test('research cache: case-insensitive, 24h expiry, found only', () => {
   resetLimitsForTests();
   const research = { status: 'found', notes: 'n', sources: [] };
-  setCachedResearch('Zomato', research, 0);
-  assert.equal(getCachedResearch('  zomato ', 1000), research);
-  assert.equal(getCachedResearch('zomato', 24 * 60 * 60 * 1000 + 1), null);
-  setCachedResearch('Failing Brand', { status: 'failed', notes: '' }, 0);
-  assert.equal(getCachedResearch('failing brand', 1), null);
-  assert.equal(getCachedResearch('', 1), null);
+  setCachedResearch('Zomato', '', research, 0);
+  assert.equal(getCachedResearch('  zomato ', '', 1000), research);
+  assert.equal(getCachedResearch('zomato', '', 24 * 60 * 60 * 1000 + 1), null);
+  setCachedResearch('Failing Brand', '', { status: 'failed', notes: '' }, 0);
+  assert.equal(getCachedResearch('failing brand', '', 1), null);
+  assert.equal(getCachedResearch('', '', 1), null);
 });
 
 await test('the API returns a friendly 429 with Retry-After once a visitor is over the limit', async () => {
@@ -484,6 +489,188 @@ await test('regenerateTweet rejects an attempt that only repeats the old tweet, 
 });
 await test('regenerateTweet errors on an unknown slot', async () => {
   await assert.rejects(() => regenerateTweet(inputs, card, tweetsForRegen, 99, { client: regenClient(['x']) }), /no tweet in slot 99/);
+});
+
+
+console.log('review fixes: stale state');
+const briefA = { brandName: 'Zomato', industry: 'Food', objective: 'Engagement', products: 'Food delivery', toneWords: 'witty', pastPosts: 'a\nb', instructions: '', research: true };
+const snapState = (over = {}) => {
+  const c = { ...card, ...over.card };
+  return { inputs: { ...briefA, ...over.inputs }, card: c, cardSnap: { inputs: snapshotInputs(briefA) }, tweetSnap: { inputs: snapshotInputs(briefA), card: { ...card } } };
+};
+await test('nothing changed: card and tweets are current', () => {
+  assert.deepEqual(staleness(snapState()), { cardOutdated: false, tweets: null });
+});
+await test('whitespace-only edits to the brief do not mark anything outdated', () => {
+  assert.deepEqual(staleness(snapState({ inputs: { products: '  Food delivery \n' } })), { cardOutdated: false, tweets: null });
+});
+await test('changing any brief field outdates the card and the tweets', () => {
+  for (const [key, value] of [['brandName', 'Swiggy'], ['industry', 'Retail'], ['products', 'Shoes'], ['toneWords', 'serious'], ['pastPosts', 'c'], ['instructions', 'no emoji'], ['research', false]]) {
+    assert.deepEqual(staleness(snapState({ inputs: { [key]: value } })), { cardOutdated: true, tweets: 'brief' }, key);
+  }
+});
+await test('changing the objective requires a rebuild and a fresh plan', () => {
+  const s = staleness(snapState({ inputs: { objective: 'Promotion' } }));
+  assert.equal(s.cardOutdated, true);
+  assert.equal(s.tweets, 'brief');
+});
+await test('any Voice Card edit after tweets exist marks the tweets outdated, including the summary bullets', () => {
+  assert.deepEqual(staleness(snapState({ card: { voice_summary: ['changed bullet'] } })), { cardOutdated: false, tweets: 'card' });
+  assert.deepEqual(staleness(snapState({ card: { avoid_words: ['cheap', 'new'] } })), { cardOutdated: false, tweets: 'card' });
+  assert.equal(OUTDATED_TEXT.card, 'Outdated: Voice Card changed. Regenerate to apply.');
+  assert.equal(OUTDATED_TEXT.brief, 'Outdated: your brief changed');
+});
+await test('undoing a card edit makes the tweets current again; an empty tone row is not an edit', () => {
+  assert.equal(staleness(snapState({ card: { voice_summary: ['a'] } })).tweets, null);
+  assert.equal(staleness(snapState({ card: { tone: [{ trait: '', detail: '', evidence: 'user-defined' }] } })).tweets, null);
+});
+await test('a brief change wins over a card edit (only a rebuild fixes it)', () => {
+  assert.equal(staleness(snapState({ inputs: { products: 'x' }, card: { voice_summary: ['z'] } })).tweets, 'brief');
+});
+await test('with no tweets yet, only the card can be outdated', () => {
+  const s = snapState({ inputs: { products: 'x' } });
+  assert.deepEqual(staleness({ ...s, tweetSnap: null }), { cardOutdated: true, tweets: null });
+});
+await test('names and summary on a tweet set come from its snapshot, not the live form or card', () => {
+  const tweetSnap = { inputs: snapshotInputs({ ...briefA, brandName: 'Zomato' }), card: { ...card, brand_display_name: 'Zomato', voice_summary: ['snap bullet'] } };
+  const shown = tweetsDisplay(tweetSnap); // the live form could now say "Swiggy"; tweetsDisplay never sees it
+  assert.deepEqual(shown, { brandLabel: 'Zomato', displayName: 'Zomato', summary: ['snap bullet'] });
+  assert.equal(tweetsDisplay({ ...tweetSnap, inputs: snapshotInputs({ ...briefA, brandName: '' }) }).brandLabel, 'Your brand');
+});
+await test('regenerate sends the snapshot inputs and card, not the live ones', async () => {
+  const src = await readFile(new URL('../app/page.jsx', import.meta.url), 'utf8');
+  assert.ok(src.includes("{ inputs: tweetSnap.inputs, card: tweetSnap.card, slot"));
+  assert.ok(src.includes("{ inputs: used, card: cleaned }") && src.includes('const used = cardSnap.inputs'));
+});
+
+console.log('review fixes: conflict banner');
+await test('conflict banner is built from the recorded resolutions', () => {
+  assert.equal(conflictSummary([{ resolution: 'Followed the user instruction and kept the playful tone.' }]), '1 conflicting signal resolved in favour of your instructions');
+  assert.equal(conflictSummary([{ resolution: 'Used the pasted posts over the stated tone words.' }, { resolution: 'Kept the pasted posts style.' }]), '2 conflicting signals resolved in favour of your posts');
+});
+await test('conflict banner falls back to a neutral line when resolutions are unclear or mixed', () => {
+  assert.equal(conflictSummary([{ resolution: 'Retain humour, but deliver it with restraint.' }]), '1 conflicting signal reviewed. Details below.');
+  assert.equal(conflictSummary([{ resolution: 'Kept the user instruction.' }, { resolution: 'Used the pasted posts.' }]), '2 conflicting signals reviewed. Details below.');
+  assert.equal(conflictSummary([]), '');
+});
+await test('the banner no longer decides its wording from whether posts exist', async () => {
+  const src = await readFile(new URL('../app/components/VoiceCardView.jsx', import.meta.url), 'utf8');
+  assert.ok(!src.includes('hasPosts'));
+});
+
+console.log('review fixes: wording');
+await test('no absolute claims in the UI; the header does not say tweets are editable', async () => {
+  const files = ['../app/page.jsx', '../app/components/BrandForm.jsx', '../app/components/TweetsView.jsx', '../app/components/VoiceCardView.jsx', '../app/components/HowItWorks.jsx'];
+  const text = (await Promise.all(files.map((f) => readFile(new URL(f, import.meta.url), 'utf8')))).join('\n');
+  assert.ok(!/never invents|never go beyond|never invent/i.test(text));
+  assert.ok(text.includes('Grounded in your brief, with checks for unsupported details. Review facts before posting.'));
+  assert.ok(text.includes('Edit the Voice Card, regenerate and copy tweets.'));
+  assert.ok(!text.includes('tweets you can edit'));
+});
+
+console.log('review fixes: research switch');
+await test('research is on by default and off only when switched off', () => {
+  assert.equal(normalizeInputs({ brandName: 'X' }).research, true);
+  assert.equal(normalizeInputs({ brandName: 'X', research: false }).research, false);
+});
+await test('with research off, no search call is made even with a brand name', async () => {
+  const client = mockClient({ criticReviews: [] });
+  const res = await researchBrand(normalizeInputs({ ...inputs, research: false }), { client });
+  assert.equal(res.status, 'skipped');
+  assert.equal(res.reason, 'research turned off');
+  assert.equal(client.calls.search, 0);
+  const full = await runPipeline({ ...inputs, research: false }, { client });
+  assert.equal(client.calls.search, 0);
+  assert.equal(full.research.status, 'skipped');
+});
+await test('the research cache key includes the industry', () => {
+  resetLimitsForTests();
+  const food = { status: 'found', notes: 'food', sources: [] };
+  const bank = { status: 'found', notes: 'bank', sources: [] };
+  setCachedResearch('Apex', 'Food', food, 0);
+  setCachedResearch('Apex', 'Banking', bank, 0);
+  assert.equal(getCachedResearch('apex', ' food ', 1), food);
+  assert.equal(getCachedResearch('Apex', 'Banking', 1), bank);
+  assert.equal(getCachedResearch('Apex', '', 1), null);
+});
+
+console.log('review fixes: humour ban');
+await test('humour_allowed is in the Voice Card schema and the analysis prompt; the writer is told the rule', () => {
+  assert.equal(VOICE_CARD_SCHEMA.properties.humour_allowed.type, 'boolean');
+  assert.ok(VOICE_CARD_SCHEMA.required.includes('humour_allowed'));
+  assert.ok(ANALYSIS_INSTRUCTIONS.includes('humour_allowed'));
+  assert.ok(TWEET_INSTRUCTIONS.includes('humour_allowed false'));
+});
+await test('validateCard keeps humour_allowed, defaults old cards to true and rejects non-booleans', () => {
+  assert.equal(validateCard({ ...card, humour_allowed: false }).humour_allowed, false);
+  const { humour_allowed, ...old } = card;
+  assert.equal(validateCard(old).humour_allowed, true);
+  assert.throws(() => validateCard({ ...card, humour_allowed: 'no' }));
+});
+await test('planMix with humour off replaces every witty slot, keeps 10 slots and reports it', () => {
+  for (const obj of ['engagement', 'promotion', 'awareness', 'launch', 'balanced']) {
+    const on = planMix(obj);
+    const off = planMix(obj, [], { humourAllowed: false });
+    assert.equal(off.slots.length, 10);
+    assert.ok(off.slots.every((s) => s.style !== 'witty'), obj);
+    assert.equal(off.mix.witty, 0);
+    assert.equal(Object.values(off.mix).reduce((a, b) => a + b, 0), 10);
+    assert.equal(off.wittyReplaced, on.mix.witty);
+    assert.equal(on.wittyReplaced, 0);
+    assert.ok(off.slots.every((s) => ANGLES[s.style].includes(s.angle)));
+  }
+});
+await test('a pipeline run with humour_allowed false writes no witty slots and the plan says so', async () => {
+  const client = mockClient({ criticReviews: [] });
+  const res = await generateTweets(inputs, { ...card, humour_allowed: false }, { client });
+  assert.ok(res.tweets.every((t) => t.style !== 'witty'));
+  assert.ok(res.plan.wittyReplaced > 0);
+  assert.equal(res.checks.mixMatches ?? true, true);
+  const on = await generateTweets(inputs, card, { client: mockClient({ criticReviews: [] }) });
+  assert.equal(on.plan.wittyReplaced, 0);
+});
+await test('the tweets page shows the humour notice and the form has the research switch', async () => {
+  const tv = await readFile(new URL('../app/components/TweetsView.jsx', import.meta.url), 'utf8');
+  assert.ok(tv.includes('Witty slots replaced: your instructions rule out humour.'));
+  const form = await readFile(new URL('../app/components/BrandForm.jsx', import.meta.url), 'utf8');
+  assert.ok(form.includes('Research this brand online') && form.includes('adds about 30 seconds'));
+});
+
+console.log('review fixes: robustness');
+await test('if the critic call fails, the drafts come back with a warning instead of an error', async () => {
+  const base = mockClient({ criticReviews: [] });
+  const client = {
+    calls: base.calls,
+    responses: { async create(params) { if (params.text?.format?.name === 'critic') throw new Error('boom'); return base.responses.create(params); } },
+  };
+  const res = await generateTweets(inputs, card, { client });
+  assert.equal(res.tweets.length, 10);
+  assert.equal(res.tweets[0].text, WRITTEN[0]);
+  assert.equal(res.warnings.length, 1);
+  assert.match(res.warnings[0], /editor pass/i);
+  assert.equal(res.rejectedRevisions.length, 0);
+});
+await test('a clean run has no warnings', async () => {
+  assert.deepEqual((await generateTweets(inputs, card, { client: mockClient({ criticReviews: [] }) })).warnings, []);
+});
+await test('a revision is rejected when it introduces a NEW issue code, even if the issue count does not go up', async () => {
+  // WRITTEN[9] fails avoid_words ("cheap"): 1 issue. The rewrite removes that but adds an invented duration: still 1 issue, new code.
+  const client = mockClient({
+    criticReviews: [{ slot: 10, verdict: 'revise', reason: 'flat', revised_text: 'Sample six flavours in 12 minutes.' }],
+  });
+  const res = await generateTweets(inputs, card, { client });
+  assert.equal(res.rejectedRevisions.length, 1);
+  assert.equal(res.rejectedRevisions[0].slot, 10);
+  assert.ok(res.rejectedRevisions[0].failedChecks.some((m) => m.includes('12 minutes')));
+  assert.equal(res.tweets[9].text, WRITTEN[9]);
+});
+await test('a revision that only removes issues is still accepted', async () => {
+  const client = mockClient({
+    criticReviews: [{ slot: 10, verdict: 'revise', reason: 'off-voice', revised_text: 'A good hack: sample six flavours first.' }],
+  });
+  const res = await generateTweets(inputs, card, { client });
+  assert.equal(res.rejectedRevisions.length, 0);
+  assert.equal(res.tweets[9].revised, true);
 });
 
 console.log('blind eval helpers');

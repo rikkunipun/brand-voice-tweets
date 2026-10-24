@@ -60,8 +60,13 @@ export default function BrandForm({ values, setValues, onSubmit, onExample, onSa
 
         <div className="grid gap-5 sm:grid-cols-2">
           <Field id="brandName" label="Brand name" optional value={values.brandName} max={INPUT_LIMITS.brandName}
-            hint="If given, we look for the brand's own posts online to learn its real voice.">
+            hint="With research on, we look for the brand's own posts online to learn its real voice.">
             <input id="brandName" className={field} value={values.brandName} maxLength={INPUT_LIMITS.brandName} onChange={set('brandName')} placeholder="e.g. Zomato" autoComplete="off" />
+            <label className={`mt-2 flex items-start gap-2 text-sm ${values.brandName.trim() ? '' : 'text-slate-400'}`}>
+              <input type="checkbox" className="mt-0.5 h-4 w-4 accent-[var(--color-brand)]" checked={values.research && Boolean(values.brandName.trim())}
+                disabled={!values.brandName.trim()} onChange={(e) => setValues({ ...values, research: e.target.checked })} />
+              <span>Research this brand online <span className="text-muted">(adds about 30 seconds)</span></span>
+            </label>
           </Field>
           <Field id="industry" label="Industry" optional value={values.industry} max={INPUT_LIMITS.industry}>
             <input id="industry" className={field} value={values.industry} maxLength={INPUT_LIMITS.industry} onChange={set('industry')} placeholder="e.g. Food delivery and dining out" autoComplete="off" />
@@ -77,7 +82,7 @@ export default function BrandForm({ values, setValues, onSubmit, onExample, onSa
           </Field>
 
           <Field id="products" label="About the products" required value={values.products} max={INPUT_LIMITS.products}
-            hint="What you sell and anything the tweets may mention: product names, flavours, features, offers. Tweets never go beyond this.">
+            hint="What you sell and anything the tweets may mention: product names, flavours, features, offers. Anything not listed here is checked for as unsupported.">
             <AutoTextarea id="products" minRows={3} className={field} value={values.products} maxLength={INPUT_LIMITS.products} onChange={set('products')} placeholder="e.g. Millet-based chips and cookies made in Hyderabad. No maida, no palm oil. Launching a Snack Box sampler with 6 flavours." />
           </Field>
 

@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { AutoTextarea, Button, Card, Section, Spinner } from './ui.jsx';
 import { EvidenceChip, EvidenceLegend } from './EvidenceChip.jsx';
 import { cleanUrl } from '../lib/api.js';
+import { conflictSummary } from '@/lib/view-state.js';
 
 const input = 'w-full rounded-lg border border-line bg-surface px-3 py-2 text-sm focus-visible:outline-2 focus-visible:outline-offset-0 focus-visible:outline-brand';
 const MAX_TRAITS = 6;
@@ -63,13 +64,12 @@ function researchMeta(research) {
 }
 
 // Conflicts are a one-line yellow notice that expands to the details.
-function ConflictNotice({ conflicts, hasPosts }) {
-  const n = conflicts.length;
+function ConflictNotice({ conflicts }) {
   return (
     <details className="group rounded-xl border border-yellow-300 bg-yellow-50 text-sm text-yellow-900">
       <summary className="flex cursor-pointer list-none items-center justify-between gap-3 rounded-xl px-4 py-3 marker:hidden focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow-700 [&::-webkit-details-marker]:hidden">
         <span className="font-medium">
-          {n} conflicting signal{n === 1 ? '' : 's'} resolved in favour of {hasPosts ? 'your posts' : 'your input'}
+          {conflictSummary(conflicts)}
         </span>
         <span className="shrink-0 text-xs underline underline-offset-2">
           <span className="group-open:hidden">Show details</span>
@@ -90,7 +90,7 @@ function ConflictNotice({ conflicts, hasPosts }) {
   );
 }
 
-export default function VoiceCardView({ card, setCard, research, cardWarnings, hasPosts, onGenerate, onBack, busy, sampleNote }) {
+export default function VoiceCardView({ card, setCard, research, cardWarnings, onGenerate, onRebuild, outdated, onBack, busy, rebuilding, sampleNote }) {
   const update = (patch) => setCard({ ...card, ...patch });
   const updateRules = (patch) => setCard({ ...card, style_rules: { ...card.style_rules, ...patch } });
   const setTone = (i, patch) =>
@@ -102,18 +102,18 @@ export default function VoiceCardView({ card, setCard, research, cardWarnings, h
     <div className="space-y-5">
       {sampleNote}
 
-      <Card title={`Voice Card: ${card.brand_display_name}`}>
-        <ul className="space-y-2">
-          {card.voice_summary.map((b) => (
-            <li key={b} className="flex gap-3 text-[15px]">
-              <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-brand" aria-hidden="true" />
-              <span>{b}</span>
-            </li>
-          ))}
-        </ul>
+      {outdated && (
+        <div role="status" className="rounded-xl border border-amber-300 bg-amber-50 px-4 py-3 text-sm text-amber-900">
+          <p className="font-medium">Outdated: your brief changed</p>
+          <p>This Voice Card was built from the earlier brief. Rebuild it to match your changes; any edits you made to the card will be replaced.</p>
+        </div>
+      )}
+
+      <Card title={`Voice Card: ${card.brand_display_name}`} aside={<span className="text-xs text-muted">Editable, one bullet per line</span>}>
+        <LinesField id="summary" label="Voice summary" hint="Tweets are written from this card, so an edit applies the next time you generate." value={card.voice_summary} onChange={(voice_summary) => update({ voice_summary })} />
       </Card>
 
-      {card.conflicts.length > 0 && <ConflictNotice conflicts={card.conflicts} hasPosts={hasPosts} />}
+      {card.conflicts.length > 0 && <ConflictNotice conflicts={card.conflicts} />}
 
       <Card title="How we know" aside={<span className="text-xs text-muted">Every trait is labelled with where it came from</span>}>
         <EvidenceLegend />
@@ -225,10 +225,16 @@ export default function VoiceCardView({ card, setCard, research, cardWarnings, h
       {/* Sticky: stays at the bottom of the screen while the card scrolls, then settles after the last section. */}
       <div className="sticky bottom-0 z-10 -mx-4 border-t border-line bg-canvas/95 px-4 py-3 backdrop-blur sm:-mx-6 sm:px-6">
         <div className="flex flex-wrap items-center gap-3">
-          <Button variant="primary" className="px-5 py-2.5" onClick={onGenerate} disabled={busy}>
-            {busy ? <><Spinner /> Working…</> : 'Generate 10 tweets'}
-          </Button>
-          <Button onClick={onBack} disabled={busy}>Back to Details</Button>
+          {outdated ? (
+            <Button variant="primary" className="px-5 py-2.5" onClick={onRebuild} disabled={rebuilding}>
+              {rebuilding ? <><Spinner /> Working…</> : 'Rebuild Voice Card'}
+            </Button>
+          ) : (
+            <Button variant="primary" className="px-5 py-2.5" onClick={onGenerate} disabled={busy || card.voice_summary.length === 0}>
+              {busy ? <><Spinner /> Working…</> : 'Generate 10 tweets'}
+            </Button>
+          )}
+          <Button onClick={onBack} disabled={busy || rebuilding}>Back to Details</Button>
         </div>
       </div>
     </div>

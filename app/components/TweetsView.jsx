@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import { Button, Card, Spinner } from './ui.jsx';
 import { copyText, shortAngle } from '../lib/api.js';
+import { OUTDATED_TEXT } from '@/lib/view-state.js';
 
 const STYLE_CLASSES = {
   engaging: 'bg-blue-50 text-blue-700 ring-blue-200',
@@ -89,7 +90,7 @@ function TweetCard({ tweet, check, displayName, avatarClass, onRegenerate, regen
   );
 }
 
-export default function TweetsView({ tweets, checks, summary, brandLabel, displayName, onRegenerate, regeneratingSlot, onBack, onStartOver, sampleNote, regenError }) {
+export default function TweetsView({ tweets, checks, plan, warnings, summary, brandLabel, displayName, stale, busy, onRebuild, onRegenerateAll, onRegenerate, regeneratingSlot, onBack, onStartOver, sampleNote, regenError }) {
   const [copiedAll, setCopiedAll] = useState(false);
   const avatarClass = AVATAR_COLORS[(brandLabel.length + brandLabel.charCodeAt(0)) % AVATAR_COLORS.length];
   const revised = tweets.filter((t) => t.revised).length;
@@ -113,6 +114,27 @@ export default function TweetsView({ tweets, checks, summary, brandLabel, displa
   return (
     <div className="space-y-5">
       {sampleNote}
+      {stale && (
+        <div role="status" className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-amber-300 bg-amber-50 px-4 py-3 text-sm text-amber-900">
+          <div>
+            <p className="font-medium">{OUTDATED_TEXT[stale]}</p>
+            {stale === 'brief' && <p>These tweets were written from the earlier brief. Rebuild the Voice Card, then generate again.</p>}
+          </div>
+          {stale === 'brief'
+            ? <Button variant="primary" onClick={onRebuild} disabled={busy}>Rebuild Voice Card</Button>
+            : <Button variant="primary" onClick={onRegenerateAll} disabled={busy}>Regenerate 10 tweets</Button>}
+        </div>
+      )}
+      {warnings.length > 0 && (
+        <div role="status" className="rounded-xl border border-amber-300 bg-amber-50 px-4 py-3 text-sm text-amber-900">
+          {warnings.map((w) => <p key={w}>{w}</p>)}
+        </div>
+      )}
+      {plan?.wittyReplaced > 0 && (
+        <div role="status" className="rounded-xl border border-line bg-surface px-4 py-3 text-sm text-muted">
+          Witty slots replaced: your instructions rule out humour.
+        </div>
+      )}
       <Card title={`Brand voice: ${displayName}`}>
         <ul className="space-y-2">
           {summary.map((b) => (
@@ -142,7 +164,7 @@ export default function TweetsView({ tweets, checks, summary, brandLabel, displa
         {regenError && <p role="alert" className="mt-3 rounded-lg bg-red-50 px-3 py-2 text-sm text-red-800">{regenError}</p>}
       </Card>
 
-      <div className="space-y-4">
+      <div className={`space-y-4 ${stale ? 'opacity-60' : ''}`}>
         {tweets.map((t) => (
           <TweetCard
             key={t.slot}

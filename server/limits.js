@@ -39,25 +39,26 @@ export function rateLimitMessage(action, retryAfterSec) {
 // Research is the slow, expensive step, and it only depends on the brand, so it is cached for 24 hours.
 const RESEARCH_TTL_MS = 24 * HOUR;
 const MAX_CACHED_BRANDS = 200;
-const researchCache = new Map(); // lowercase brand name -> { at, research }
+const researchCache = new Map(); // lowercase brand name + industry -> { at, research }
 
-const cacheKey = (brandName) => brandName.trim().toLowerCase();
+// Industry is part of the key: the same name can be a different brand (or search) in another category.
+const cacheKey = (brandName, industry = '') => `${brandName.trim().toLowerCase()}|${industry.trim().toLowerCase()}`;
 
-export function getCachedResearch(brandName, now = Date.now()) {
+export function getCachedResearch(brandName, industry = '', now = Date.now()) {
   if (!brandName?.trim()) return null;
-  const hit = researchCache.get(cacheKey(brandName));
+  const hit = researchCache.get(cacheKey(brandName, industry));
   if (!hit) return null;
   if (now - hit.at > RESEARCH_TTL_MS) {
-    researchCache.delete(cacheKey(brandName));
+    researchCache.delete(cacheKey(brandName, industry));
     return null;
   }
   return hit.research;
 }
 
 // Only successful research is cached, so a failed search is retried next time.
-export function setCachedResearch(brandName, research, now = Date.now()) {
+export function setCachedResearch(brandName, industry, research, now = Date.now()) {
   if (!brandName?.trim() || research?.status !== 'found') return;
-  researchCache.set(cacheKey(brandName), { at: now, research });
+  researchCache.set(cacheKey(brandName, industry), { at: now, research });
   if (researchCache.size > MAX_CACHED_BRANDS) researchCache.delete(researchCache.keys().next().value);
 }
 

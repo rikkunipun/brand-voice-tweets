@@ -25,12 +25,12 @@ export async function POST(request) {
 
   return ndjson(async (send) => {
     const meter = createMeter();
-    const { plan, tweets, checks } = await generateTweets(inputs, card, {
+    const { plan, tweets, checks, warnings } = await generateTweets(inputs, card, {
       meter,
       onStep: (step) => send({ type: 'progress', step }),
     });
     const usage = estimateCost(meter);
     console.log('[usage] generate', JSON.stringify(usage));
-    send({ type: 'result', plan, tweets, checks, usage });
+    send({ type: 'result', plan, tweets, checks, warnings, usage });
   });
 }

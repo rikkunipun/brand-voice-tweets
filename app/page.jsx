@@ -8,8 +8,9 @@ import HowItWorks from './components/HowItWorks.jsx';
 import { Button, Notice, ProgressPanel } from './components/ui.jsx';
 import { postJson, streamPost } from './lib/api.js';
 import { APPROACH_DOC_URL, REPO_URL } from './site.js';
+import { snapshotInputs, cleanCard, staleness, tweetsDisplay } from '@/lib/view-state.js';
 
-const EMPTY_INPUTS = { brandName: '', industry: '', objective: 'Engagement', products: '', toneWords: '', pastPosts: '', instructions: '' };
+const EMPTY_INPUTS = { brandName: '', industry: '', objective: 'Engagement', products: '', toneWords: '', pastPosts: '', instructions: '', research: true };
 const EXAMPLES = { zomato: examples['zomato-posts'], millet: examples.millet };
 const STEP_NAMES = ['Details', 'Voice', 'Tweets'];
 
@@ -30,7 +31,7 @@ function FooterLink({ href, children }) {
   return <a href={href} target="_blank" rel="noopener noreferrer" className="underline underline-offset-2 hover:text-ink">{children}</a>;
 }
 
-function StepIndicator({ step, reachable, onGo }) {
+function StepIndicator({ step, reachable, onGo, outdated = {} }) {
   return (
     <nav aria-label="Progress" className="mb-6">
       <ol className="flex items-center gap-2 sm:gap-3">
@@ -45,7 +46,7 @@ function StepIndicator({ step, reachable, onGo }) {
                 <span className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-xs font-semibold ${active ? 'bg-brand text-white' : ok ? 'bg-emerald-600 text-white' : 'bg-slate-200 text-slate-600'}`}>
                   {ok && !active ? '✓' : n}
                 </span>
-                <span className={`truncate font-medium ${active ? 'text-brand' : ''}`}>{name}</span>
+                <span className={`truncate font-medium ${active ? 'text-brand' : ''}`}>{name}{outdated[n] && <span className="font-normal text-amber-700"> · outdated</span>}</span>
               </button>
             </li>
           );
@@ -61,6 +62,8 @@ export default function Home() {
   const [card, setCard] = useState(null);
   const [cardVersion, setCardVersion] = useState(0);
   const [research, setResearch] = useState(null);
+  const [cardSnap, setCardSnap] = useState(null); // { inputs }: the brief the current card was built from
+  const [tweetSnap, setTweetSnap] = useState(null); // { inputs, card }: what the current tweets were written from
   const [cardWarnings, setCardWarnings] = useState([]);
   const [tweetResult, setTweetResult] = useState(null);
   const [busy, setBusy] = useState(null); // 'analyze' | 'generate' | null
@@ -97,11 +100,13 @@ export default function Home() {
       if (!res.ok) throw new Error();
       const s = await res.json();
       setInputs({ ...EMPTY_INPUTS, ...s.inputs });
+      setCardSnap({ inputs: snapshotInputs(s.inputs) });
+      setTweetSnap({ inputs: snapshotInputs(s.inputs), card: cleanCard(s.card) });
       setCard(s.card);
       setCardVersion((v) => v + 1);
       setResearch(s.research);
       setCardWarnings(s.cardWarnings || []);
-      setTweetResult({ plan: s.plan, tweets: s.tweets, checks: s.checks });
+      setTweetResult({ plan: s.plan, tweets: s.tweets, checks: s.checks, warnings: [] });
       setSample(name);
       setStep(3);
     } catch {
@@ -115,14 +120,17 @@ export default function Home() {
     setSample('');
     setBusy('analyze');
     try {
-      const result = await streamPost('/api/analyze', { inputs }, (ev) => {
+      const sent = snapshotInputs(inputs);
+      const result = await streamPost('/api/analyze', { inputs: sent }, (ev) => {
         if (ev.type === 'progress') setSeen((s) => [...s, ev.step === 'research' ? 'research' : ev.cached ? 'saved' : ev.step]);
       });
+      setCardSnap({ inputs: sent });
       setCard(result.card);
       setCardVersion((v) => v + 1);
       setResearch(result.research);
       setCardWarnings(result.cardWarnings || []);
       setTweetResult(null);
+      setTweetSnap(null);
       setStep(2);
     } catch (err) {
       setError(err.message);
@@ -132,17 +140,20 @@ export default function Home() {
   }
 
   async function generate() {
+    if (!cardSnap || stale.cardOutdated) return;
     setError('');
     setSeen([]);
     setBusy('generate');
-    // Empty tone traits (added but never filled in) are dropped.
-    const cleaned = { ...card, tone: card.tone.filter((t) => t.trait.trim()) };
+    // Tweets are written from the brief the card was built from (the same as the form while the card is current).
+    const used = cardSnap.inputs;
+    const cleaned = cleanCard(card);
     try {
-      const result = await streamPost('/api/generate', { inputs, card: cleaned }, (ev) => {
+      const result = await streamPost('/api/generate', { inputs: used, card: cleaned }, (ev) => {
         if (ev.type === 'progress') setSeen((s) => [...s, ev.step]);
       });
       setCard(cleaned);
-      setTweetResult({ plan: result.plan, tweets: result.tweets, checks: result.checks });
+      setTweetSnap({ inputs: used, card: cleaned });
+      setTweetResult({ plan: result.plan, tweets: result.tweets, checks: result.checks, warnings: result.warnings || [] });
       setRegenError('');
       setStep(3);
     } catch (err) {
@@ -156,7 +167,7 @@ export default function Home() {
     setRegenError('');
     setRegeneratingSlot(slot);
     try {
-      const { tweet, checks } = await postJson('/api/regenerate', { inputs, card, slot, tweets: tweetResult.tweets });
+      const { tweet, checks } = await postJson('/api/regenerate', { inputs: tweetSnap.inputs, card: tweetSnap.card, slot, tweets: tweetResult.tweets });
       setTweetResult((r) => ({ ...r, tweets: r.tweets.map((t) => (t.slot === slot ? tweet : t)), checks }));
     } catch (err) {
       setRegenError(err.message);
@@ -170,12 +181,15 @@ export default function Home() {
     setCard(null);
     setResearch(null);
     setTweetResult(null);
+    setCardSnap(null);
+    setTweetSnap(null);
     setSample('');
     setError('');
     setInputs(EMPTY_INPUTS);
   }
 
-  const analyzeSteps = inputs.brandName.trim()
+  const stale = staleness({ inputs, card, cardSnap, tweetSnap });
+  const analyzeSteps = inputs.brandName.trim() && inputs.research
     ? [seen.includes('saved') ? ANALYZE_STEPS.saved : ANALYZE_STEPS.research, ANALYZE_STEPS.analysis]
     : [ANALYZE_STEPS.analysis];
   const progress = busy === 'analyze'
@@ -194,11 +208,11 @@ export default function Home() {
       <header className="mb-8">
         <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">Brand Voice Tweets</h1>
         <p className="mt-2 max-w-2xl text-muted">
-          Tell us about a brand. We build a Voice Card that shows where every trait comes from, then write 10 on-brand tweets you can edit, regenerate and copy.
+          Tell us about a brand. We build a Voice Card that shows where every trait comes from, then write 10 on-brand tweets. Edit the Voice Card, regenerate and copy tweets.
         </p>
       </header>
 
-      <StepIndicator step={step} reachable={reachable} onGo={(n) => !busy && setStep(n)} />
+      <StepIndicator step={step} reachable={reachable} onGo={(n) => !busy && setStep(n)} outdated={{ 2: stale.cardOutdated, 3: Boolean(stale.tweets) }} />
 
       <div className="space-y-5">
         {error && (
@@ -215,12 +229,12 @@ export default function Home() {
 
         {step === 2 && card && (
           <VoiceCardView key={cardVersion} card={card} setCard={setCard} research={research} cardWarnings={cardWarnings}
-            hasPosts={Boolean(inputs.pastPosts.trim())} onGenerate={generate} onBack={() => setStep(1)} busy={busy === 'generate'} sampleNote={sampleNote} />
+            onGenerate={generate} onRebuild={analyze} outdated={stale.cardOutdated} onBack={() => setStep(1)} busy={busy === 'generate'} rebuilding={busy === 'analyze'} sampleNote={sampleNote} />
         )}
 
-        {step === 3 && tweetResult && card && (
-          <TweetsView tweets={tweetResult.tweets} checks={tweetResult.checks} summary={card.voice_summary} displayName={card.brand_display_name}
-            brandLabel={inputs.brandName.trim() || 'Your brand'}
+        {step === 3 && tweetResult && tweetSnap && (
+          <TweetsView tweets={tweetResult.tweets} checks={tweetResult.checks} plan={tweetResult.plan} warnings={tweetResult.warnings || []}
+            {...tweetsDisplay(tweetSnap)} stale={stale.tweets} onRebuild={analyze} onRegenerateAll={generate} busy={Boolean(busy)}
             onRegenerate={regenerate} regeneratingSlot={regeneratingSlot} onBack={() => setStep(2)} onStartOver={startOver}
             sampleNote={sampleNote} regenError={regenError} />
         )}
@@ -229,7 +243,7 @@ export default function Home() {
       </div>
 
       <footer className="mt-10 space-y-2 text-xs text-muted">
-        <p>Tweets are AI-drafted. Review facts and tone before posting. The tool never invents offers, prices or claims that are not in your brief.</p>
+        <p>Tweets are AI-drafted. Grounded in your brief, with checks for unsupported details. Review facts before posting.</p>
         <p>
           Built by Nipun Rikapu for the Walnut Folks / Confluencr assignment ·{' '}
           <FooterLink href={REPO_URL}>GitHub</FooterLink> · <FooterLink href={APPROACH_DOC_URL}>Approach doc</FooterLink>
