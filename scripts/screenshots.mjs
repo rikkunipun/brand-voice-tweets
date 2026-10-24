@@ -42,7 +42,7 @@ async function run(viewport, suffix) {
   await page.goto(url, { waitUntil: 'networkidle0' });
   if (mode === 'sample') {
     await shot(`1-details${suffix}`);
-    await click('see a sample result');
+    await click('Zomato (with real posts)');
     await hasText('Your 10 tweets');
     await click('Revised by editor');
     await shot(`3-tweets${suffix}`);

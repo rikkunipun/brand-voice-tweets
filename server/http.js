@@ -59,7 +59,9 @@ export function ndjson(handler) {
       controller.close();
     },
   });
+  // Not `no-store`: with it, Chrome reports every fully-read stream as "ERR_ABORTED / canceled" in DevTools (the data
+  // still arrives intact). POST responses are never cached anyway; `no-transform` stops proxies buffering or compressing.
   return new Response(stream, {
-    headers: { 'Content-Type': 'application/x-ndjson; charset=utf-8', 'Cache-Control': 'no-store, no-transform' },
+    headers: { 'Content-Type': 'application/x-ndjson; charset=utf-8', 'Cache-Control': 'no-cache, no-transform' },
   });
 }

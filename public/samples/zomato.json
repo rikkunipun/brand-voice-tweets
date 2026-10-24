@@ -11,93 +11,93 @@
   "card": {
     "brand_display_name": "Zomato",
     "voice_summary": [
-      "Write compact, deadpan observations about food, work, relationships and everyday Indian life.",
-      "Turn familiar thoughts into sharp one-liners, often landing the punchline on Zomato, ordering or food.",
-      "Sound like a culturally fluent friend on the timeline—not a polished advertiser or corporate account.",
-      "Prioritize relatability and replies over hard selling; product references should feel natural to the joke."
+      "Write like a very online Indian friend who turns food, work and relationships into compact jokes.",
+      "Keep most posts to one sentence, with a familiar setup and a sharp deadpan twist.",
+      "Build engagement through relatable observations, strong food takes and culturally timely references—not polished corporate copy.",
+      "Mention Zomato naturally through ordering choices, delivery rituals, restaurant discovery and dining-out moments."
     ],
     "tone": [
       {
-        "trait": "Deadpan and concise",
-        "detail": "Deliver jokes as casual observations without explaining the punchline or signaling that a joke is coming.",
+        "trait": "Deadpan observational humour rooted in everyday Indian life",
+        "detail": "Find comedy in salaries, managers, relationships, chai and oddly specific delivery instructions; state the joke without explaining it.",
         "evidence": "supported-by-examples"
       },
       {
-        "trait": "Relatable everyday satire",
-        "detail": "Find humor in salaries, managers, dating, marriage and other ordinary pressures familiar to Indian users.",
+        "trait": "Short, setup-to-punchline delivery",
+        "detail": "Use one compact sentence or a familiar formula that lands on an unexpected food, work or app-related twist.",
         "evidence": "supported-by-examples"
       },
       {
-        "trait": "Culturally specific and conversational",
-        "detail": "Use recognizable Indian habits, household requests and occasional Hindi phrases without over-translating them.",
+        "trait": "Casual, internet-native familiarity",
+        "detail": "Sound like a friend posting an unfiltered thought, using lowercase copy and conversational phrasing rather than campaign language.",
         "evidence": "supported-by-examples"
       },
       {
         "trait": "Playfully irreverent",
-        "detail": "Tease work culture, relationships and the brand itself while keeping the humor light rather than hostile.",
+        "detail": "Tease workplace culture, dating and domestic life with mild cynicism, while avoiding cruelty or attacks on individuals.",
         "evidence": "supported-by-examples"
       },
       {
-        "trait": "Compactly clever",
-        "detail": "Use equations, double meanings and unexpected comparisons that can be understood in one quick read.",
-        "evidence": "supported-by-examples"
+        "trait": "Fast and culturally responsive",
+        "detail": "React quickly to memes, festivals and cultural moments with a food or dining angle instead of forcing formal product messaging.",
+        "evidence": "web-supported"
       }
     ],
     "target_audience": {
-      "description": "Indian digital-native food delivery and dining users, especially young adults who understand meme culture, workplace humor, relationship jokes and everyday Hinglish references.",
+      "description": "Digitally active Indian food-delivery and dining-out users who understand workplace humour, relationship memes, Hinglish and everyday local references.",
       "evidence": "inferred"
     },
     "content_themes": [
       {
-        "theme": "Everyday food-ordering behavior",
-        "detail": "Turn browsing, indecision, cravings, waiting and delivery habits into relatable one-liners.",
+        "theme": "Everyday work-life absurdity",
+        "detail": "Salary motivation, managers, meetings and office survival reframed through food or appetite.",
         "evidence": "supported-by-examples"
       },
       {
-        "theme": "Workplace survival humor",
-        "detail": "Connect salaries, managers, meetings and ambition to food or ordering without becoming motivational.",
+        "theme": "Ordering and delivery rituals",
+        "detail": "Specific instructions, tracking-screen anticipation and recognisable behaviours surrounding an arriving order.",
         "evidence": "supported-by-examples"
       },
       {
-        "theme": "Relationships through a food lens",
-        "detail": "Use dating, marriage and companionship as setups for jokes about choosing food or tracking an order.",
+        "theme": "Indian food opinions and logic",
+        "detail": "Strong takes, mock equations and playful declarations about chai, meals and familiar Indian dishes.",
         "evidence": "supported-by-examples"
       },
       {
-        "theme": "Distinctly Indian household moments",
-        "detail": "Spotlight local phrases, delivery instructions, chai rituals and small behaviors users instantly recognize.",
+        "theme": "Dating, relationships and food choices",
+        "detail": "Compare browsing food options, ordering and waiting for food with modern dating or domestic relationships.",
         "evidence": "supported-by-examples"
       },
       {
-        "theme": "Food wordplay and absurd logic",
-        "detail": "Remix equations, familiar sayings and common formulas so the twist lands on food.",
-        "evidence": "supported-by-examples"
-      },
-      {
-        "theme": "Dining-out decisions and discovery",
-        "detail": "Create engagement around choosing restaurants, discovering places and making table-booking plans.",
+        "theme": "Restaurant discovery and dining out",
+        "detail": "Conversation-worthy moments around choosing restaurants and booking tables, without turning posts into feature lists.",
         "evidence": "user-defined"
+      },
+      {
+        "theme": "Topical engagement hooks",
+        "detail": "Use memes, festivals, cultural moments and provocative prompts to invite replies and sharing.",
+        "evidence": "web-supported"
       }
     ],
     "brand_hooks": [
       {
-        "hook": "A food delivery app serving users across India",
+        "hook": "A single Indian app spanning food delivery, restaurant discovery and table bookings for dining out.",
         "evidence": "user-defined"
       },
       {
-        "hook": "Restaurant discovery and table bookings alongside delivery",
-        "evidence": "user-defined"
-      },
-      {
-        "hook": "A large range of food choices that can be compared jokingly to dating-app choice overload",
+        "hook": "The overwhelming number of food choices on the app, playfully compared with browsing a dating app.",
         "evidence": "supported-by-examples"
       },
       {
-        "hook": "The experience of watching an order arrive through the app",
+        "hook": "The anticipation of watching an order approach in the app.",
         "evidence": "supported-by-examples"
       },
       {
-        "hook": "Unusually specific delivery instructions left by Indian customers",
+        "hook": "Hyper-specific Indian delivery instructions, such as asking the rider to switch off the motor while leaving.",
+        "evidence": "supported-by-examples"
+      },
+      {
+        "hook": "A relationship with Indian food culture that supports recognisable references to chai, local dishes and everyday eating habits.",
         "evidence": "supported-by-examples"
       }
     ],
@@ -128,58 +128,51 @@
       }
     ],
     "style_rules": {
-      "emoji_use": "none",
-      "hashtag_use": "none",
-      "language": "Primarily English with occasional natural Hinglish or untranslated Hindi phrases",
-      "sentence_style": "Usually one short sentence in plain language; lowercase is common, punctuation is minimal, and the final phrase carries the twist.",
+      "emoji_use": "light",
+      "hashtag_use": "light",
+      "language": "Casual English with occasional Hinglish and culturally specific Indian phrasing",
+      "sentence_style": "Predominantly lowercase, single-sentence posts; concise setups with deadpan punchlines, minimal punctuation and no explanation after the joke.",
       "signature_patterns": [
-        "Deadpan life observation followed by an unexpected food or app-related comparison",
-        "Fake advice or encouragement that ends in a cynical workplace twist",
-        "Familiar formula, equation or phrase rewritten around food",
-        "Hyper-specific Indian behavior presented as a casual factual observation"
+        "Turn a familiar phrase or motivational cliché into a cynical workplace punchline.",
+        "Use parody formulas or equations to express a food truth.",
+        "Compare app or ordering behaviour with dating and relationships.",
+        "Begin with a matter-of-fact observation, then reveal an oddly specific Indian detail."
       ]
     },
     "dos": [
-      "Keep most posts to one compact thought with a clear punchline.",
-      "Use food, ordering or dining as the lens—not necessarily as an explicit sales pitch.",
-      "Build jokes from recognizable Indian workplace, relationship and household behavior.",
-      "Let the audience infer the joke; stop immediately after the punchline.",
-      "Use occasional Hinglish only when the phrase feels natural and culturally precise."
+      "Keep the central joke readable in one quick scroll.",
+      "Anchor humour in specific, recognisable behaviours around food, work, relationships or delivery.",
+      "Use Hinglish only where the phrase feels natural and broadly understandable to the intended Indian audience.",
+      "Tie trends to food or dining with a fresh angle rather than merely naming the trend.",
+      "Invite replies through debatable food opinions and relatable observations."
     ],
     "donts": [
-      "Do not turn engagement posts into formal product copy or advertiser-facing calls to action.",
-      "Do not explain the joke, add a moral or follow it with promotional detail.",
-      "Do not force Zomato into every line when a subtle food or ordering reference is enough.",
-      "Do not overuse emojis, hashtags, exclamation marks or internet slang.",
-      "Do not make jokes that punch down at delivery partners, restaurant workers or customers."
+      "Do not explain the punchline or add a promotional paragraph after it.",
+      "Do not force Zomato into every post when the food or cultural connection is already clear.",
+      "Do not sound like a corporate announcement, customer-support script or generic motivational account.",
+      "Do not overuse emojis, hashtags, exclamation marks or trend slang.",
+      "Do not make jokes that demean delivery partners, customers or specific communities."
     ],
     "avoid_words": [
-      "optimize your spend",
-      "peak consumption hours",
-      "massive canvas",
-      "user journey",
-      "advertising opportunities",
-      "inventory",
-      "ROI",
-      "synergy",
+      "delighted to announce",
       "revolutionary",
-      "game-changing"
+      "best-in-class",
+      "seamless experience",
+      "valued customers",
+      "foodies",
+      "mouth-watering",
+      "scrumptious",
+      "hurry now",
+      "limited-time only",
+      "download today"
     ],
-    "conflicts": [
-      {
-        "issue": "The brand-owned web material uses formal, product-first advertising language, while the pasted consumer posts use deadpan social humor.",
-        "user_says": "The supplied past posts establish a concise, playful consumer voice for engagement on X.",
-        "signal_says": "Zomato's advertising pages emphasize formats, inventory, reach, spend optimization and marketer calls to action.",
-        "resolution": "Use the pasted-post voice because it is direct evidence of the intended social style and is more relevant to consumer-facing X posts; exclude advertiser-page language except where writing B2B content."
-      }
-    ],
+    "conflicts": [],
     "assumptions": [
-      "The primary X audience is consumer-facing rather than restaurants, advertisers or other business partners.",
-      "The pasted posts are representative of the voice the team wants to continue, even though no explicit tone words were provided.",
-      "Lowercase styling is treated as common rather than mandatory because several, but not all, pasted posts use it.",
-      "The absence of emojis and hashtags across all pasted examples supports using neither by default.",
-      "Dining-out content should use the same concise, observational humor as delivery content, although no dining-out post examples were supplied.",
-      "No current X feed was available in the research, so posting cadence, reply behavior and recent recurring formats could not be verified."
+      "The core X audience is treated as digitally active Indian consumers; no age range or city profile was supplied.",
+      "Lowercase copy is treated as a useful recurring pattern because five of the six pasted posts use it, but it is not assumed to be mandatory.",
+      "Light emoji and hashtag use follows the brand-owned research notes; the pasted examples themselves use neither.",
+      "Restaurant discovery and table bookings are included as content territory because they were supplied in the form, although the pasted posts focus primarily on delivery and general food humour.",
+      "No product prices, offer mechanics, membership benefits or restaurant partnerships are assumed."
     ]
   },
   "cardWarnings": [],
@@ -188,24 +181,28 @@
     "reason": "",
     "sources": [
       {
-        "url": "https://www.zomato.com/brand-ads/",
-        "title": "Advertise on Zomato"
+        "url": "https://x.com/zomato/with_replies",
+        "title": "Posts with replies by zomato (@zomato) / X"
       },
       {
-        "url": "https://motionapp.com/library/zomato",
-        "title": "Zomato Paid Social Creative Strategy | Motion"
+        "url": "https://socialpeta.com/en/app-store/434613896",
+        "title": "Zomato: Food Delivery & Dining Ads, Creatives & App Intelligence"
       },
       {
-        "url": "https://cdn.featuredcustomers.com/CustomerCaseStudy.document/ganai_zomato2_814849.pdf",
-        "title": "How Zomato Humanized Hrithik Roshan to Run the World’s Largest AI-Generated Marketing Campaign"
+        "url": "https://technosports.co.in/zomato-social-media-marketing-strategy/?noamp=mobile&nonamp=1",
+        "title": "Zomato's Social Media Strategy: The Twitter Voice Other Brands Copy"
       },
       {
-        "url": "https://hawky.ai/blog/zomato-creative-strategy",
-        "title": "Decoding Zomato's Creative Strategy"
+        "url": "https://rjpn.org/ijnti/papers/IJNTI2405021.pdf",
+        "title": "Zomato’s Interactive posts"
       },
       {
-        "url": "https://knowyourmeme.com/memes/sites/zomato",
-        "title": "@Zomato | Know Your Meme"
+        "url": "https://www.linkedin.com/pulse/case-study-how-zomato-made-twitter-its-marketing-saanvi-bhatter-dguuf",
+        "title": "🧈 Case Study: How Zomato Made Twitter Its Marketing Playground"
+      },
+      {
+        "url": "https://www.isteonline.in/Datafiles/cms/2025/IJTE%20special%20issue%201%20March%202025%20upload.pdf",
+        "title": "How Content Marketing Strategy is Shaping Zomato Brand"
       }
     ],
     "cached": false
@@ -222,52 +219,72 @@
       {
         "slot": 1,
         "style": "engaging",
-        "angle": "this-or-that choice"
+        "angle": "this-or-that choice",
+        "theme": "Everyday work-life absurdity",
+        "themeDetail": "Salary motivation, managers, meetings and office survival reframed through food or appetite."
       },
       {
         "slot": 2,
         "style": "witty",
-        "angle": "meme or parody format that fits the voice: a fake equation, 'POV:', a fake notice or announcement, 'nobody: / me:', a chapter title. Don't default to 'POV: you opened [app]'"
+        "angle": "meme or parody format that fits the voice: a fake equation, 'POV:', a fake notice or announcement, 'nobody: / me:', a chapter title. Don't default to 'POV: you opened [app]'",
+        "theme": "Ordering and delivery rituals",
+        "themeDetail": "Specific instructions, tracking-screen anticipation and recognisable behaviours surrounding an arriving order."
       },
       {
         "slot": 3,
         "style": "informative",
-        "angle": "practical tip"
+        "angle": "practical tip",
+        "theme": "Indian food opinions and logic",
+        "themeDetail": "Strong takes, mock equations and playful declarations about chai, meals and familiar Indian dishes."
       },
       {
         "slot": 4,
         "style": "promotional",
-        "angle": "hero product benefit"
+        "angle": "hero product benefit",
+        "theme": "Dating, relationships and food choices",
+        "themeDetail": "Compare browsing food options, ordering and waiting for food with modern dating or domestic relationships."
       },
       {
         "slot": 5,
         "style": "engaging",
-        "angle": "fill in the blank"
+        "angle": "fill in the blank",
+        "theme": "Restaurant discovery and dining out",
+        "themeDetail": "Conversation-worthy moments around choosing restaurants and booking tables, without turning posts into feature lists."
       },
       {
         "slot": 6,
         "style": "witty",
-        "angle": "wordplay on the product or category"
+        "angle": "wordplay on the product or category",
+        "theme": "Topical engagement hooks",
+        "themeDetail": "Use memes, festivals, cultural moments and provocative prompts to invite replies and sharing."
       },
       {
         "slot": 7,
         "style": "informative",
-        "angle": "how-to in 2-3 steps"
+        "angle": "how-to in 2-3 steps",
+        "theme": "Everyday work-life absurdity",
+        "themeDetail": "Salary motivation, managers, meetings and office survival reframed through food or appetite."
       },
       {
         "slot": 8,
         "style": "engaging",
-        "angle": "relatable confession question"
+        "angle": "relatable confession question",
+        "theme": "Ordering and delivery rituals",
+        "themeDetail": "Specific instructions, tracking-screen anticipation and recognisable behaviours surrounding an arriving order."
       },
       {
         "slot": 9,
         "style": "witty",
-        "angle": "playful exaggeration of a relatable habit"
+        "angle": "playful exaggeration of a relatable habit",
+        "theme": "Indian food opinions and logic",
+        "themeDetail": "Strong takes, mock equations and playful declarations about chai, meals and familiar Indian dishes."
       },
       {
         "slot": 10,
         "style": "engaging",
-        "angle": "hot take that invites debate"
+        "angle": "hot take that invites debate",
+        "theme": "Dating, relationships and food choices",
+        "themeDetail": "Compare browsing food options, ordering and waiting for food with modern dating or domestic relationships."
       }
     ]
   },
@@ -276,8 +293,9 @@
       "slot": 1,
       "style": "engaging",
       "angle": "this-or-that choice",
-      "text": "tonight's plan: food coming to you or you going to food?",
-      "why": "Dining-out versus delivery choice in a compact, conversational format.",
+      "theme": "Everyday work-life absurdity",
+      "text": "salary credited or meeting cancelled—which notification improves your appetite more?",
+      "why": "work-life absurdity with a reply-friendly this-or-that choice",
       "revised": false,
       "revisionReason": "",
       "originalText": ""
@@ -286,18 +304,20 @@
       "slot": 2,
       "style": "witty",
       "angle": "meme or parody format that fits the voice: a fake equation, 'POV:', a fake notice or announcement, 'nobody: / me:', a chapter title. Don't default to 'POV: you opened [app]'",
-      "text": "salary - rent - bills = add dessert",
-      "why": "Uses the fake-equation pattern with workplace and food humour.",
-      "revised": false,
-      "revisionReason": "",
-      "originalText": ""
+      "theme": "Ordering and delivery rituals",
+      "text": "official notice: refreshing the tracking screen repeatedly does not make the order arrive faster, but we respect the commitment",
+      "why": "deadpan fake notice about order-tracking anticipation",
+      "revised": true,
+      "revisionReason": "Uses an unsupported specific number.",
+      "originalText": "official notice: refreshing the tracking screen every 11 seconds does not make the order arrive faster, but we respect the commitment"
     },
     {
       "slot": 3,
       "style": "informative",
       "angle": "practical tip",
-      "text": "group dinner tip: decide the area and cuisine before checking restaurants, warna dinner becomes breakfast",
-      "why": "Offers a practical restaurant-discovery tip with a Hinglish punchline.",
+      "theme": "Indian food opinions and logic",
+      "text": "chai rule: start with less cheeni because you can add more, unlike the things you said during the family argument",
+      "why": "practical chai tip delivered through Indian food logic",
       "revised": false,
       "revisionReason": "",
       "originalText": ""
@@ -306,28 +326,31 @@
       "slot": 4,
       "style": "promotional",
       "angle": "hero product benefit",
-      "text": "order in from bed or book a table outside, Zomato works both shifts",
-      "why": "Promotes delivery, restaurant discovery and table bookings as one clear benefit.",
-      "revised": true,
-      "revisionReason": "Repeats “tonight's plan” from slot one.",
-      "originalText": "craving in bed or plans outside, find food for both on Zomato. pick tonight's plan"
-    },
-    {
-      "slot": 5,
-      "style": "engaging",
-      "angle": "fill in the blank",
-      "text": "my most repeated order is ______ and at this point we're basically colleagues",
-      "why": "Turns repeat-order behaviour into a reply-friendly fill-in-the-blank.",
+      "theme": "Dating, relationships and food choices",
+      "text": "more food options, fewer mixed signals—find what you like on Zomato and order the one that actually shows up",
+      "why": "hero benefit of broad food choice framed like modern dating",
       "revised": false,
       "revisionReason": "",
       "originalText": ""
     },
     {
+      "slot": 5,
+      "style": "engaging",
+      "angle": "fill in the blank",
+      "theme": "Restaurant discovery and dining out",
+      "text": "a restaurant instantly becomes worth booking on Zomato if it has ______",
+      "why": "fill-in-the-blank prompt built around restaurant discovery",
+      "revised": true,
+      "revisionReason": "Generic prompt lacks a distinctive Zomato dining-out hook.",
+      "originalText": "a restaurant instantly becomes date-worthy if it has ______"
+    },
+    {
       "slot": 6,
       "style": "witty",
       "angle": "wordplay on the product or category",
-      "text": "table booking is just a reservation against last-minute group indecision",
-      "why": "Uses category wordplay around dining out and unreliable group plans.",
+      "theme": "Topical engagement hooks",
+      "text": "my current festive menu is starters, main course and avoiding the question ‘shaadi kab karoge’",
+      "why": "cultural-moment wordplay that turns a meal into social survival",
       "revised": false,
       "revisionReason": "",
       "originalText": ""
@@ -336,18 +359,20 @@
       "slot": 7,
       "style": "informative",
       "angle": "how-to in 2-3 steps",
-      "text": "how to plan dinner: 1. find a restaurant 2. book a table 3. tell the group before someone says “aur options bhejo”",
-      "why": "Gives a simple table-booking how-to in the brand's deadpan voice.",
-      "revised": true,
-      "revisionReason": "Repeats slot three’s cuisine-first group dinner advice.",
-      "originalText": "how to plan dinner: 1. pick a cuisine 2. find a restaurant 3. book the table before the group chat changes its mind"
+      "theme": "Everyday work-life absurdity",
+      "text": "office lunch survival guide: 1) check your calendar 2) order before the back-to-back meetings 3) eat while someone says ‘quick sync’",
+      "why": "three-step ordering tip grounded in workplace absurdity",
+      "revised": false,
+      "revisionReason": "",
+      "originalText": ""
     },
     {
       "slot": 8,
       "style": "engaging",
       "angle": "relatable confession question",
-      "text": "be honest, have you ever tracked an order that was still being prepared?",
-      "why": "Invites confessions about the familiar order-tracking habit.",
+      "theme": "Ordering and delivery rituals",
+      "text": "be honest, have you ever opened the door before the delivery partner even rang the bell?",
+      "why": "relatable confession about the delivery waiting ritual",
       "revised": false,
       "revisionReason": "",
       "originalText": ""
@@ -356,91 +381,93 @@
       "slot": 9,
       "style": "witty",
       "angle": "playful exaggeration of a relatable habit",
-      "text": "some people read books before bed, i study every menu and order from the usual place",
-      "why": "Playfully exaggerates food-choice overload and browsing behaviour.",
-      "revised": true,
-      "revisionReason": "Uses an unsupported specific number.",
-      "originalText": "some people read books before bed, i study 47 menus and order from the usual place"
+      "theme": "Indian food opinions and logic",
+      "text": "one samosa is a snack, two are a meal, three are evidence that today required emotional support",
+      "why": "playful exaggeration built on recognisable Indian food logic",
+      "revised": false,
+      "revisionReason": "",
+      "originalText": ""
     },
     {
       "slot": 10,
       "style": "engaging",
       "angle": "hot take that invites debate",
-      "text": "hot take: choosing the restaurant is harder than choosing who to go with",
-      "why": "Connects dining-out decisions with relationship humour to spark debate.",
-      "revised": false,
-      "revisionReason": "",
-      "originalText": ""
+      "theme": "Dating, relationships and food choices",
+      "text": "hot take: saying ‘anything is fine’ and rejecting six cuisines is a relationship stress test",
+      "why": "debatable relationship take centred on shared food choices",
+      "revised": true,
+      "revisionReason": "Repeats tweet 4’s dating-and-ordering compatibility idea.",
+      "originalText": "hot take: choosing what to order together reveals more compatibility than any dating profile ever will"
     }
   ],
   "checks": {
     "perTweet": [
       {
         "slot": 1,
-        "length": 56,
-        "emoji": 0,
-        "hashtags": 0,
-        "issues": []
-      },
-      {
-        "slot": 2,
-        "length": 35,
-        "emoji": 0,
-        "hashtags": 0,
-        "issues": []
-      },
-      {
-        "slot": 3,
-        "length": 105,
-        "emoji": 0,
-        "hashtags": 0,
-        "issues": []
-      },
-      {
-        "slot": 4,
-        "length": 67,
-        "emoji": 0,
-        "hashtags": 0,
-        "issues": []
-      },
-      {
-        "slot": 5,
-        "length": 77,
-        "emoji": 0,
-        "hashtags": 0,
-        "issues": []
-      },
-      {
-        "slot": 6,
-        "length": 72,
-        "emoji": 0,
-        "hashtags": 0,
-        "issues": []
-      },
-      {
-        "slot": 7,
-        "length": 114,
-        "emoji": 0,
-        "hashtags": 0,
-        "issues": []
-      },
-      {
-        "slot": 8,
-        "length": 72,
-        "emoji": 0,
-        "hashtags": 0,
-        "issues": []
-      },
-      {
-        "slot": 9,
         "length": 84,
         "emoji": 0,
         "hashtags": 0,
         "issues": []
       },
       {
+        "slot": 2,
+        "length": 127,
+        "emoji": 0,
+        "hashtags": 0,
+        "issues": []
+      },
+      {
+        "slot": 3,
+        "length": 113,
+        "emoji": 0,
+        "hashtags": 0,
+        "issues": []
+      },
+      {
+        "slot": 4,
+        "length": 108,
+        "emoji": 0,
+        "hashtags": 0,
+        "issues": []
+      },
+      {
+        "slot": 5,
+        "length": 71,
+        "emoji": 0,
+        "hashtags": 0,
+        "issues": []
+      },
+      {
+        "slot": 6,
+        "length": 94,
+        "emoji": 0,
+        "hashtags": 0,
+        "issues": []
+      },
+      {
+        "slot": 7,
+        "length": 132,
+        "emoji": 0,
+        "hashtags": 0,
+        "issues": []
+      },
+      {
+        "slot": 8,
+        "length": 88,
+        "emoji": 0,
+        "hashtags": 0,
+        "issues": []
+      },
+      {
+        "slot": 9,
+        "length": 95,
+        "emoji": 0,
+        "hashtags": 0,
+        "issues": []
+      },
+      {
         "slot": 10,
-        "length": 72,
+        "length": 92,
         "emoji": 0,
         "hashtags": 0,
         "issues": []

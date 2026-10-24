@@ -1,0 +1,482 @@
+{
+  "inputs": {
+    "brandName": "CRED",
+    "industry": "Fintech, credit card bill payments",
+    "objective": "Awareness",
+    "products": "App for paying credit card bills that rewards members for paying on time, with members-only rewards and offers.",
+    "toneWords": "premium, understated",
+    "pastPosts": "",
+    "instructions": ""
+  },
+  "card": {
+    "brand_display_name": "CRED",
+    "voice_summary": [
+      "Premium and restrained: speak like membership is earned, not aggressively sold.",
+      "Use concise, intelligent humour—occasionally absurd, but delivered with a straight face.",
+      "Frame responsible credit behaviour as a mark of discernment, with rewards as recognition.",
+      "Build awareness through memorable observations about credit cards, bills, rewards and financially responsible habits."
+    ],
+    "tone": [
+      {
+        "trait": "Premium and selective",
+        "detail": "Present CRED as a high-trust members’ club for responsible credit-card users; signal status without sounding boastful or inaccessible.",
+        "evidence": "user-defined"
+      },
+      {
+        "trait": "Understated",
+        "detail": "Prefer sparse, confident copy and implied value over hype, exclamation marks or lengthy persuasion.",
+        "evidence": "user-defined"
+      },
+      {
+        "trait": "Witty with controlled absurdity",
+        "detail": "Use unexpected scenarios or logical twists to make credit concepts memorable, while keeping the delivery polished and restrained.",
+        "evidence": "web-supported"
+      },
+      {
+        "trait": "Aspirational but responsible",
+        "detail": "Treat creditworthiness and paying on time as behaviours worth recognising, pairing privilege with financial discipline.",
+        "evidence": "web-supported"
+      }
+    ],
+    "target_audience": {
+      "description": "Digitally fluent Indian credit-card users who pay attention to their credit behaviour, appreciate premium experiences and are motivated by recognition, exclusive rewards and offers.",
+      "evidence": "inferred"
+    },
+    "content_themes": [
+      {
+        "theme": "Paying credit-card bills on time",
+        "detail": "Make timely payment feel like an intelligent, quietly satisfying habit rather than an administrative chore.",
+        "evidence": "user-defined"
+      },
+      {
+        "theme": "Rewards for responsible behaviour",
+        "detail": "Show that members can receive rewards and offers for doing what financially responsible people already do.",
+        "evidence": "user-defined"
+      },
+      {
+        "theme": "Creditworthiness as a signal",
+        "detail": "Turn responsible credit behaviour into an understated marker of discernment, trust and belonging.",
+        "evidence": "web-supported"
+      },
+      {
+        "theme": "Absurd credit lessons",
+        "detail": "Explain credit concepts by contrasting sensible financial behaviour with polished but ridiculous scenarios.",
+        "evidence": "web-supported"
+      },
+      {
+        "theme": "Members-only discovery",
+        "detail": "Create awareness of the app by hinting at experiences, offers and rewards available within the CRED membership ecosystem without inventing specifics.",
+        "evidence": "user-defined"
+      },
+      {
+        "theme": "Observations about cardholder life",
+        "detail": "Use concise observations about bills, due dates, multiple cards and reward-seeking habits as awareness-led social commentary.",
+        "evidence": "inferred"
+      }
+    ],
+    "brand_hooks": [
+      {
+        "hook": "CRED rewards members for paying their credit-card bills on time.",
+        "evidence": "user-defined"
+      },
+      {
+        "hook": "Members receive access to members-only rewards and offers.",
+        "evidence": "user-defined"
+      },
+      {
+        "hook": "Creditworthiness is framed as both responsible behaviour and membership status.",
+        "evidence": "web-supported"
+      },
+      {
+        "hook": "“not everyone gets it.”",
+        "evidence": "web-supported"
+      },
+      {
+        "hook": "The brand uses absurd situations to turn credit concepts into memorable lessons.",
+        "evidence": "web-supported"
+      }
+    ],
+    "voice_examples": [
+      {
+        "text": "not everyone gets it.",
+        "source": "brand-post-from-research"
+      },
+      {
+        "text": "New CRED Foundation ads turn absurd situations into credit lessons",
+        "source": "brand-post-from-research"
+      },
+      {
+        "text": "New AI coach from CRED enables members to proactively manage and improve their credit scores.",
+        "source": "brand-post-from-research"
+      }
+    ],
+    "style_rules": {
+      "emoji_use": "light",
+      "hashtag_use": "light",
+      "language": "English",
+      "sentence_style": "Short, polished sentences with economical wording; favour lowercase one-liners, deadpan observations and concise statements that reveal the joke or benefit late.",
+      "signature_patterns": [
+        "Minimal statement with an exclusive or double meaning",
+        "Straight-faced setup that turns an absurd situation into a credit lesson",
+        "Observational one-liner about responsible cardholder behaviour",
+        "Concise product or campaign reveal led by the member benefit"
+      ]
+    },
+    "dos": [
+      "Write with the confidence of a selective members’ club rather than a mass-market coupon app.",
+      "Keep awareness posts concise enough to land as one clear observation, joke or idea.",
+      "Connect rewards to responsible behaviour, especially paying credit-card bills on time.",
+      "Use absurdity selectively and deliver it without overexplaining the joke.",
+      "Make financial concepts understandable without flattening the premium tone."
+    ],
+    "donts": [
+      "Do not use loud sales language, repeated exclamation marks or breathless promotional copy.",
+      "Do not shame people for debt, missed payments, income or credit scores.",
+      "Do not invent reward values, offers, eligibility rules, partnerships or product capabilities.",
+      "Do not make exclusivity sound arrogant, hostile or socially exclusionary.",
+      "Do not turn posts into dense financial lectures or corporate press-release copy."
+    ],
+    "avoid_words": [
+      "cheap",
+      "bargain",
+      "free money",
+      "guaranteed",
+      "instant wealth",
+      "life-changing",
+      "unbelievable",
+      "hurry",
+      "act now",
+      "everyone",
+      "LOL",
+      "lit",
+      "best ever"
+    ],
+    "conflicts": [
+      {
+        "issue": "The researched brand voice includes playful humour and absurd scenarios, while the requested tone is understated.",
+        "user_says": "The voice should be premium and understated.",
+        "signal_says": "Brand-owned campaign material describes witty, playful work built around absurd situations.",
+        "resolution": "Retain humour and absurdity, but deliver both with sparse wording, a straight face and premium restraint; avoid loud or chaotic comedy."
+      }
+    ],
+    "assumptions": [
+      "No direct X posts were available, so X-specific patterns are inferred from brand-owned campaign pages, the homepage and third-party commentary about CRED’s X voice.",
+      "The audience is assumed to be primarily Indian because CRED’s positioning and cited reward values use Indian-market context, but no geography was explicitly supplied in the form.",
+      "Light emoji and hashtag use are defaults because the available evidence does not establish a consistent X-level pattern; most posts should use neither unless useful.",
+      "Press-release headlines were used cautiously as voice examples because no direct social posts were available; writers should not copy their corporate structure for routine X posts.",
+      "The awareness campaign should foreground CRED’s known bill-payment, membership and reward proposition without naming unverified offers or partners."
+    ]
+  },
+  "cardWarnings": [],
+  "research": {
+    "status": "found",
+    "reason": "",
+    "sources": [
+      {
+        "url": "https://newsroom.cred.club/new-cred-foundation-ads-turn-absurd-situations-into-credit-lessons/",
+        "title": "New CRED Foundation ads turn absurd situations into credit lessons"
+      },
+      {
+        "url": "https://cred.club/",
+        "title": "CRED. not everyone gets it."
+      },
+      {
+        "url": "https://newsroom.cred.club/",
+        "title": "CRED Newsroom"
+      },
+      {
+        "url": "https://newsroom.cred.club/circle-by-cred-enables-the-affluent-to-leverage-the-strengths-of-the-cred-community/",
+        "title": "Circle by CRED enables the affluent to leverage the strengths of the CRED community"
+      },
+      {
+        "url": "https://www.weareanimal.co/cred",
+        "title": "CRED — Animal"
+      },
+      {
+        "url": "https://www.linkedin.com/posts/apar-gupta-digital-marketing-specialist_a-strategic-deep-dive-into-creds-social-activity-7435912124725542912-O5H8",
+        "title": "CRED: Exclusivity & Lifestyle through Trust-Tech Ecosystem | Apar Gupta posted on the topic | LinkedIn"
+      }
+    ],
+    "cached": false
+  },
+  "plan": {
+    "objectiveKey": "awareness",
+    "mix": {
+      "informative": 3,
+      "witty": 3,
+      "engaging": 2,
+      "promotional": 2
+    },
+    "slots": [
+      {
+        "slot": 1,
+        "style": "informative",
+        "angle": "practical tip",
+        "theme": "Paying credit-card bills on time",
+        "themeDetail": "Make timely payment feel like an intelligent, quietly satisfying habit rather than an administrative chore."
+      },
+      {
+        "slot": 2,
+        "style": "witty",
+        "angle": "meme or parody format that fits the voice: a fake equation, 'POV:', a fake notice or announcement, 'nobody: / me:', a chapter title. Don't default to 'POV: you opened [app]'",
+        "theme": "Rewards for responsible behaviour",
+        "themeDetail": "Show that members can receive rewards and offers for doing what financially responsible people already do."
+      },
+      {
+        "slot": 3,
+        "style": "engaging",
+        "angle": "this-or-that choice",
+        "theme": "Creditworthiness as a signal",
+        "themeDetail": "Turn responsible credit behaviour into an understated marker of discernment, trust and belonging."
+      },
+      {
+        "slot": 4,
+        "style": "promotional",
+        "angle": "hero product benefit",
+        "theme": "Absurd credit lessons",
+        "themeDetail": "Explain credit concepts by contrasting sensible financial behaviour with polished but ridiculous scenarios."
+      },
+      {
+        "slot": 5,
+        "style": "informative",
+        "angle": "how-to in 2-3 steps",
+        "theme": "Members-only discovery",
+        "themeDetail": "Create awareness of the app by hinting at experiences, offers and rewards available within the CRED membership ecosystem without inventing specifics."
+      },
+      {
+        "slot": 6,
+        "style": "witty",
+        "angle": "wordplay on the product or category",
+        "theme": "Observations about cardholder life",
+        "themeDetail": "Use concise observations about bills, due dates, multiple cards and reward-seeking habits as awareness-led social commentary."
+      },
+      {
+        "slot": 7,
+        "style": "engaging",
+        "angle": "fill in the blank",
+        "theme": "Paying credit-card bills on time",
+        "themeDetail": "Make timely payment feel like an intelligent, quietly satisfying habit rather than an administrative chore."
+      },
+      {
+        "slot": 8,
+        "style": "promotional",
+        "angle": "occasion or use-case",
+        "theme": "Rewards for responsible behaviour",
+        "themeDetail": "Show that members can receive rewards and offers for doing what financially responsible people already do."
+      },
+      {
+        "slot": 9,
+        "style": "informative",
+        "angle": "behind the product (only from the brief)",
+        "theme": "Creditworthiness as a signal",
+        "themeDetail": "Turn responsible credit behaviour into an understated marker of discernment, trust and belonging."
+      },
+      {
+        "slot": 10,
+        "style": "witty",
+        "angle": "playful exaggeration of a relatable habit",
+        "theme": "Absurd credit lessons",
+        "themeDetail": "Explain credit concepts by contrasting sensible financial behaviour with polished but ridiculous scenarios."
+      }
+    ]
+  },
+  "tweets": [
+    {
+      "slot": 1,
+      "style": "informative",
+      "angle": "practical tip",
+      "theme": "Paying credit-card bills on time",
+      "text": "set a reminder a few days before the due date. future you can then enjoy the rare luxury of having nothing urgent to remember.",
+      "why": "Practical tip for making timely payments a quietly satisfying habit.",
+      "revised": false,
+      "revisionReason": "",
+      "originalText": ""
+    },
+    {
+      "slot": 2,
+      "style": "witty",
+      "angle": "meme or parody format that fits the voice: a fake equation, 'POV:', a fake notice or announcement, 'nobody: / me:', a chapter title. Don't default to 'POV: you opened [app]'",
+      "theme": "Rewards for responsible behaviour",
+      "text": "responsible behaviour + paying on time = rewards. an equation with unusually pleasant working.",
+      "why": "Uses a deadpan fake equation to connect discipline with rewards.",
+      "revised": false,
+      "revisionReason": "",
+      "originalText": ""
+    },
+    {
+      "slot": 3,
+      "style": "engaging",
+      "angle": "this-or-that choice",
+      "theme": "Creditworthiness as a signal",
+      "text": "this or that: a reputation for paying on time, or the quiet satisfaction of never needing a reminder?",
+      "why": "Frames responsible credit behaviour as a signal of discernment.",
+      "revised": true,
+      "revisionReason": "The choices overlap and “pristine record” feels unsubstantiated.",
+      "originalText": "this or that: a pristine cardholder record or the satisfaction of remembering every due date without a reminder?"
+    },
+    {
+      "slot": 4,
+      "style": "promotional",
+      "angle": "hero product benefit",
+      "theme": "Absurd credit lessons",
+      "text": "pay credit card bills on CRED and get rewarded for paying on time. far more sensible than framing the bill and hoping it appreciates. pay yours on CRED.",
+      "why": "Leads with the hero benefit, then lands an absurd credit lesson.",
+      "revised": false,
+      "revisionReason": "",
+      "originalText": ""
+    },
+    {
+      "slot": 5,
+      "style": "informative",
+      "angle": "how-to in 2-3 steps",
+      "theme": "Members-only discovery",
+      "text": "three steps: open CRED. pay your credit card bill on time. discover rewards and offers reserved for members.",
+      "why": "A concise how-to built around members-only discovery.",
+      "revised": true,
+      "revisionReason": "The first two steps repeat the same action.",
+      "originalText": "three steps: pay your credit card bill on CRED. pay it on time. discover members-only rewards and offers inside."
+    },
+    {
+      "slot": 6,
+      "style": "witty",
+      "angle": "wordplay on the product or category",
+      "theme": "Observations about cardholder life",
+      "text": "multiple cards require due diligence. emphasis on due.",
+      "why": "Uses category wordplay rooted in cardholder life.",
+      "revised": false,
+      "revisionReason": "",
+      "originalText": ""
+    },
+    {
+      "slot": 7,
+      "style": "engaging",
+      "angle": "fill in the blank",
+      "theme": "Paying credit-card bills on time",
+      "text": "paying the credit card bill on time feels better than ________.",
+      "why": "A reply-friendly prompt about the satisfaction of timely payment.",
+      "revised": false,
+      "revisionReason": "",
+      "originalText": ""
+    },
+    {
+      "slot": 8,
+      "style": "promotional",
+      "angle": "occasion or use-case",
+      "theme": "Rewards for responsible behaviour",
+      "text": "when the bill is due, responsible behaviour can come with recognition. pay on time and explore rewards and offers reserved for members.",
+      "why": "Positions rewards as recognition during a familiar bill-payment moment.",
+      "revised": false,
+      "revisionReason": "",
+      "originalText": ""
+    },
+    {
+      "slot": 9,
+      "style": "informative",
+      "angle": "behind the product (only from the brief)",
+      "theme": "Creditworthiness as a signal",
+      "text": "behind CRED is a simple premise: members who pay their credit card bills on time should be recognised with rewards and offers. responsibility has its privileges.",
+      "why": "Explains the product premise while treating creditworthiness as status.",
+      "revised": false,
+      "revisionReason": "",
+      "originalText": ""
+    },
+    {
+      "slot": 10,
+      "style": "witty",
+      "angle": "playful exaggeration of a relatable habit",
+      "theme": "Absurd credit lessons",
+      "text": "some people organise their cards by colour. the discerning organise them by due date, calendar alert and level of emotional attachment.",
+      "why": "Playfully exaggerates a responsible cardholder habit through polished absurdity.",
+      "revised": false,
+      "revisionReason": "",
+      "originalText": ""
+    }
+  ],
+  "checks": {
+    "perTweet": [
+      {
+        "slot": 1,
+        "length": 126,
+        "emoji": 0,
+        "hashtags": 0,
+        "issues": []
+      },
+      {
+        "slot": 2,
+        "length": 94,
+        "emoji": 0,
+        "hashtags": 0,
+        "issues": []
+      },
+      {
+        "slot": 3,
+        "length": 101,
+        "emoji": 0,
+        "hashtags": 0,
+        "issues": []
+      },
+      {
+        "slot": 4,
+        "length": 152,
+        "emoji": 0,
+        "hashtags": 0,
+        "issues": []
+      },
+      {
+        "slot": 5,
+        "length": 108,
+        "emoji": 0,
+        "hashtags": 0,
+        "issues": []
+      },
+      {
+        "slot": 6,
+        "length": 54,
+        "emoji": 0,
+        "hashtags": 0,
+        "issues": []
+      },
+      {
+        "slot": 7,
+        "length": 63,
+        "emoji": 0,
+        "hashtags": 0,
+        "issues": []
+      },
+      {
+        "slot": 8,
+        "length": 135,
+        "emoji": 0,
+        "hashtags": 0,
+        "issues": []
+      },
+      {
+        "slot": 9,
+        "length": 161,
+        "emoji": 0,
+        "hashtags": 0,
+        "issues": []
+      },
+      {
+        "slot": 10,
+        "length": 135,
+        "emoji": 0,
+        "hashtags": 0,
+        "issues": []
+      }
+    ],
+    "summary": {
+      "total": 10,
+      "passed": 10,
+      "failed": 0,
+      "countOk": true,
+      "actualMix": {
+        "informative": 3,
+        "witty": 3,
+        "engaging": 2,
+        "promotional": 2
+      },
+      "mixMatches": true
+    }
+  }
+}

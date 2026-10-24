@@ -9,6 +9,7 @@ import { createMeter, estimateCost } from '../lib/openai.js';
 import { regenerateTweet } from '../lib/pipeline.js';
 import { validateCard, validateTweets } from '../lib/card.js';
 import { limited, friendlyError, UserError } from '../server/http.js';
+import { shuffle, scoreRun } from './eval-real-vs-generated.mjs';
 import { rateLimit, LIMITS, getCachedResearch, setCachedResearch, resetLimitsForTests } from '../server/limits.js';
 
 let passed = 0;
@@ -483,6 +484,25 @@ await test('regenerateTweet rejects an attempt that only repeats the old tweet, 
 });
 await test('regenerateTweet errors on an unknown slot', async () => {
   await assert.rejects(() => regenerateTweet(inputs, card, tweetsForRegen, 99, { client: regenClient(['x']) }), /no tweet in slot 99/);
+});
+
+console.log('blind eval helpers');
+await test('shuffle is a reproducible permutation that differs by seed', () => {
+  const items = Array.from({ length: 12 }, (_, i) => i);
+  assert.deepEqual(shuffle(items, 11), shuffle(items, 11));
+  assert.deepEqual([...shuffle(items, 11)].sort((a, b) => a - b), items);
+  assert.notDeepEqual(shuffle(items, 11), shuffle(items, 22));
+  assert.deepEqual(items, Array.from({ length: 12 }, (_, i) => i)); // the input is not mutated
+});
+await test('scoreRun counts correct labels and treats missing labels as wrong', () => {
+  const order = [{ text: 'a', truth: 'real' }, { text: 'b', truth: 'generated' }, { text: 'c', truth: 'generated' }, { text: 'd', truth: 'real' }];
+  const labels = [{ id: 1, label: 'real', reason: 'x' }, { id: 2, label: 'real', reason: 'y' }, { id: 3, label: 'generated', reason: 'z' }];
+  const r = scoreRun(order, labels);
+  assert.equal(r.correct, 2);
+  assert.equal(r.accuracy, 0.5);
+  assert.equal(r.judgedReal, 2);
+  assert.equal(r.lines[1].correct, false); // generated tweet judged real = fooled
+  assert.equal(r.lines[3].judged, 'missing');
 });
 
 console.log(`\n${passed} passed${process.exitCode ? ', some FAILED' : ''}`);

@@ -12,83 +12,87 @@
     "brand_display_name": "Unnamed Hyderabad millet-snack brand",
     "voice_summary": [
       "Warm, playful snack talk with a light desi flavour.",
-      "Lead with the six-flavour Snack Box as an easy, inviting way to sample the range.",
-      "Make clear product truths—millet-based, no maida and no palm oil—feel appetising rather than clinical.",
-      "Use mostly English, adding Hinglish sparingly and naturally."
+      "Keep Hinglish occasional and natural rather than making every line bilingual.",
+      "Make the six-flavour Snack Box sampler the hero of promotional posts.",
+      "Emphasise millet-based snacking, no maida and no palm oil without mentioning competitors."
     ],
     "tone": [
       {
         "trait": "Warm and inviting",
-        "detail": "Sound like a friendly host offering a tasty snack, using welcoming language rather than a hard sell.",
+        "detail": "Sound like a friendly host offering the audience something tasty to try, not a hard-selling advertiser.",
         "evidence": "user-defined"
       },
       {
-        "trait": "Playfully appetising",
-        "detail": "Use light wordplay, snack-time observations and flavour-led phrasing without becoming loud or chaotic.",
+        "trait": "Playful",
+        "detail": "Use light snack-time jokes, cheerful phrasing and compact punchlines suited to X.",
         "evidence": "user-defined"
       },
       {
-        "trait": "Lightly desi",
-        "detail": "Add occasional familiar Indian expressions or cultural cues, while keeping Hinglish sparse and easy to understand.",
+        "trait": "A little desi",
+        "detail": "Reference familiar Indian snacking moods and use sparing, accessible Hinglish rather than heavy slang.",
         "evidence": "user-defined"
       },
       {
-        "trait": "Clear and benefit-led",
-        "detail": "State the product differentiators simply—millet-based, no maida and no palm oil—then return the focus to enjoyment.",
+        "trait": "Promotion-forward",
+        "detail": "Give posts a clear product focus and an easy next step, such as exploring the sampler on the website or Instagram.",
         "evidence": "user-defined"
       }
     ],
     "target_audience": {
-      "description": "Health-conscious Indian snack buyers who shop online, enjoy discovering new flavours and want convenient alternatives to conventional chips and cookies.",
+      "description": "Health-conscious Indian snack buyers, likely digitally active urban consumers who want convenient alternatives to conventional chips and cookies and are open to discovering multiple flavours through a sampler.",
       "evidence": "inferred"
     },
     "content_themes": [
       {
-        "theme": "Snack Box launch",
-        "detail": "Promote the sampler as a convenient way to discover six flavours in one box.",
+        "theme": "Snack Box discovery",
+        "detail": "Introduce the sampler as an easy way to explore six flavours without choosing just one.",
         "evidence": "user-defined"
       },
       {
-        "theme": "Meet the six flavours",
-        "detail": "Spotlight the variety inside the Snack Box through flavour reveals, rankings, polls and pick-your-favourite prompts, without inventing flavour names.",
-        "evidence": "user-defined"
-      },
-      {
-        "theme": "Millet-powered snacking",
-        "detail": "Explain that the chips and cookies are millet-based in short, accessible, appetite-forward language.",
+        "theme": "Millet-based chips and cookies",
+        "detail": "Show that both savoury and sweet snack cravings can be met through the brand’s millet-based range.",
         "evidence": "user-defined"
       },
       {
         "theme": "No maida, no palm oil",
-        "detail": "Turn these product facts into concise promotional proof points without making unsupported health claims.",
+        "detail": "Communicate these product attributes clearly and positively, without comparisons or competitor references.",
         "evidence": "user-defined"
       },
       {
         "theme": "Everyday snack moments",
-        "detail": "Place the products in relatable moments such as chai breaks, desk cravings, evening munchies and sharing at home.",
+        "detail": "Place the products in relatable moments such as chai breaks, desk snacking, evening cravings and sharing at home.",
         "evidence": "inferred"
       },
       {
-        "theme": "Direct-to-consumer discovery",
-        "detail": "Encourage audiences to explore and order through the brand website or Instagram.",
+        "theme": "Hyderabad roots",
+        "detail": "Use the brand’s Hyderabad origin as a point of local warmth and identity when relevant.",
+        "evidence": "user-defined"
+      },
+      {
+        "theme": "Sampler promotion",
+        "detail": "Write concise launch posts with a clear invitation to discover or order the Snack Box through the brand’s direct channels.",
         "evidence": "user-defined"
       }
     ],
     "brand_hooks": [
       {
-        "hook": "Millet-based chips and cookies made in Hyderabad.",
+        "hook": "A Snack Box sampler containing six flavours",
         "evidence": "user-defined"
       },
       {
-        "hook": "Products made without maida or palm oil.",
+        "hook": "A range spanning millet-based chips and cookies",
         "evidence": "user-defined"
       },
       {
-        "hook": "A Snack Box sampler containing six flavours.",
+        "hook": "Products made without maida or palm oil",
         "evidence": "user-defined"
       },
       {
-        "hook": "Available directly through the brand website and Instagram.",
+        "hook": "Made in Hyderabad",
+        "evidence": "user-defined"
+      },
+      {
+        "hook": "Available directly through the brand’s website and Instagram",
         "evidence": "user-defined"
       }
     ],
@@ -96,47 +100,49 @@
     "style_rules": {
       "emoji_use": "light",
       "hashtag_use": "light",
-      "language": "Primarily English with occasional, simple Hinglish",
-      "sentence_style": "Short, conversational sentences with appetising product language, clear benefits and a gentle promotional call to action.",
+      "language": "Primarily English with occasional, sparing Hinglish",
+      "sentence_style": "Short, conversational sentences with one clear product point, a light playful turn and a direct call to action.",
       "signature_patterns": [
-        "Open with a relatable snack craving or moment, then introduce the product.",
-        "Use a playful either-or question or poll around flavours and snack preferences.",
-        "Pair one product truth with one appetite cue: millet-based, crunchy and ready for snack time.",
-        "Close with a simple invitation to discover or order the six-flavour Snack Box."
+        "Relatable snack-time setup followed by a playful product reveal",
+        "Brief Hinglish interjection used as the punchline rather than throughout the post",
+        "Six-flavour choice or variety framed as a happy dilemma",
+        "Product benefit followed by a simple discovery or purchase prompt"
       ]
     },
     "dos": [
-      "Make the Snack Box and its six-flavour variety the centre of launch posts.",
-      "Balance product credentials with sensory, enjoyable snack language.",
-      "Use Hyderabad as a genuine point of origin when relevant.",
-      "Keep Hinglish occasional, familiar and understandable from context.",
-      "Use clear calls to action directing people to the website or Instagram."
+      "Lead with appetite, variety or a relatable snacking moment before adding product details.",
+      "Make the six-flavour Snack Box the central hook during the launch campaign.",
+      "State “no maida” and “no palm oil” accurately and without turning them into medical claims.",
+      "Use simple, widely understood Hinglish only occasionally.",
+      "Include a concise call to action directing people to the website or Instagram when appropriate."
     ],
     "donts": [
-      "Do not mention or allude to competitors.",
-      "Do not invent flavour names, nutritional values, prices, discounts or availability details.",
-      "Do not imply that no maida or no palm oil automatically makes the products medically healthy.",
-      "Do not overload posts with Hinglish, slang, emojis or hashtags.",
-      "Do not sound preachy, restrictive or guilt-driven about snacking."
+      "Do not mention, tag or allude to competitors.",
+      "Do not imply that the snacks treat health conditions or guarantee health outcomes.",
+      "Do not overload posts with Hindi, regional slang, emojis or hashtags.",
+      "Do not invent flavour names, prices, discounts, nutrition claims or availability details.",
+      "Do not sound preachy, clinical or guilt-driven about snacking."
     ],
     "avoid_words": [
-      "competitor names",
       "guilt-free",
-      "miracle snack",
+      "miracle",
       "superfood",
       "healthiest",
-      "100% healthy",
-      "chemical-free",
-      "junk food",
-      "cheat day"
+      "cure",
+      "weight-loss",
+      "better than",
+      "unbeatable",
+      "competitor",
+      "rival brand"
     ],
     "conflicts": [],
     "assumptions": [
-      "The target audience is inferred because no age, geography or customer profile was supplied.",
-      "Everyday occasions such as chai breaks, desk cravings and evening snacking are suggested content contexts, not stated brand claims.",
-      "Light emoji and hashtag use are defaults because no past posts or research were available to establish an existing pattern.",
-      "The voice should remain primarily English because the user requested that Hinglish be used sparingly.",
-      "No individual flavour names, prices, launch date or offer mechanics were provided, so posts should not add them."
+      "The target audience is inferred because no customer demographics were provided.",
+      "Everyday occasions such as chai breaks, work breaks and evening cravings are suggested creative contexts, not confirmed use cases.",
+      "Light emoji and hashtag use are defaults because no posts or research were available to establish an existing pattern.",
+      "The sentence style and signature patterns are recommended for X rather than derived from existing brand posts.",
+      "No flavour names, prices, offers, shipping details or launch date were provided, so posts should not add them.",
+      "The suggested avoidance of medical, weight-loss and superiority language is a strategic safeguard, not an explicit user instruction."
     ]
   },
   "cardWarnings": [],
@@ -158,52 +164,72 @@
       {
         "slot": 1,
         "style": "promotional",
-        "angle": "hero product benefit"
+        "angle": "hero product benefit",
+        "theme": "Snack Box discovery",
+        "themeDetail": "Introduce the sampler as an easy way to explore six flavours without choosing just one."
       },
       {
         "slot": 2,
         "style": "engaging",
-        "angle": "this-or-that choice"
+        "angle": "this-or-that choice",
+        "theme": "Millet-based chips and cookies",
+        "themeDetail": "Show that both savoury and sweet snack cravings can be met through the brand’s millet-based range."
       },
       {
         "slot": 3,
         "style": "witty",
-        "angle": "meme format such as 'POV:' or 'nobody: / me:'"
+        "angle": "meme or parody format that fits the voice: a fake equation, 'POV:', a fake notice or announcement, 'nobody: / me:', a chapter title. Don't default to 'POV: you opened [app]'",
+        "theme": "No maida, no palm oil",
+        "themeDetail": "Communicate these product attributes clearly and positively, without comparisons or competitor references."
       },
       {
         "slot": 4,
         "style": "informative",
-        "angle": "practical tip"
+        "angle": "practical tip",
+        "theme": "Everyday snack moments",
+        "themeDetail": "Place the products in relatable moments such as chai breaks, desk snacking, evening cravings and sharing at home."
       },
       {
         "slot": 5,
         "style": "promotional",
-        "angle": "occasion or use-case"
+        "angle": "occasion or use-case",
+        "theme": "Hyderabad roots",
+        "themeDetail": "Use the brand’s Hyderabad origin as a point of local warmth and identity when relevant."
       },
       {
         "slot": 6,
         "style": "engaging",
-        "angle": "fill in the blank"
+        "angle": "fill in the blank",
+        "theme": "Sampler promotion",
+        "themeDetail": "Write concise launch posts with a clear invitation to discover or order the Snack Box through the brand’s direct channels."
       },
       {
         "slot": 7,
         "style": "witty",
-        "angle": "wordplay on the product or category"
+        "angle": "wordplay on the product or category",
+        "theme": "Snack Box discovery",
+        "themeDetail": "Introduce the sampler as an easy way to explore six flavours without choosing just one."
       },
       {
         "slot": 8,
         "style": "informative",
-        "angle": "how-to in 2-3 steps"
+        "angle": "how-to in 2-3 steps",
+        "theme": "Millet-based chips and cookies",
+        "themeDetail": "Show that both savoury and sweet snack cravings can be met through the brand’s millet-based range."
       },
       {
         "slot": 9,
         "style": "promotional",
-        "angle": "what makes it different (only from the brief)"
+        "angle": "what makes it different (only from the brief)",
+        "theme": "No maida, no palm oil",
+        "themeDetail": "Communicate these product attributes clearly and positively, without comparisons or competitor references."
       },
       {
         "slot": 10,
         "style": "promotional",
-        "angle": "easy first step to try or buy"
+        "angle": "easy first step to try or buy",
+        "theme": "Everyday snack moments",
+        "themeDetail": "Place the products in relatable moments such as chai breaks, desk snacking, evening cravings and sharing at home."
       }
     ]
   },
@@ -212,8 +238,9 @@
       "slot": 1,
       "style": "promotional",
       "angle": "hero product benefit",
-      "text": "Meet six flavours without committing to just one. Our Hyderabad-made Snack Box brings millet-based chips and cookies together, with no maida and no palm oil. Find your favourite on our website.",
-      "why": "Leads with the six-flavour sampler and clear product truths.",
+      "theme": "Snack Box discovery",
+      "text": "Six flavours. One Snack Box. No need to choose just one. Meet the millet-based sampler made for curious snackers—and happy dilemmas. Explore it on our website.",
+      "why": "Leads with the six-flavour Snack Box and its easy discovery benefit.",
       "revised": false,
       "revisionReason": "",
       "originalText": ""
@@ -222,8 +249,9 @@
       "slot": 2,
       "style": "engaging",
       "angle": "this-or-that choice",
-      "text": "Chai-time decision: open a flavour from the Snack Box now, or save all six for an evening tasting session? Batao 👇",
-      "why": "Uses the six-flavour Snack Box in a playful, lightly desi choice.",
+      "theme": "Millet-based chips and cookies",
+      "text": "Chai break choice: millet-based chips for the crunch or millet-based cookies for the sweet finish? Pick your side 👇",
+      "why": "Uses a relatable chai-time this-or-that with the chips-and-cookies range.",
       "revised": false,
       "revisionReason": "",
       "originalText": ""
@@ -231,9 +259,10 @@
     {
       "slot": 3,
       "style": "witty",
-      "angle": "meme format such as 'POV:' or 'nobody: / me:'",
-      "text": "POV: You opened the six-flavour Snack Box “just to see what’s inside” and accidentally started a full Hyderabad millet-snack tasting.",
-      "why": "Uses a meme format with the Hyderabad-made six-flavour sampler.",
+      "angle": "meme or parody format that fits the voice: a fake equation, 'POV:', a fake notice or announcement, 'nobody: / me:', a chapter title. Don't default to 'POV: you opened [app]'",
+      "theme": "No maida, no palm oil",
+      "text": "Official snack equation: millet + crunch − maida − palm oil = dibba mysteriously empty again.",
+      "why": "Turns the no-maida, no-palm-oil attributes into a playful fake equation.",
       "revised": false,
       "revisionReason": "",
       "originalText": ""
@@ -242,8 +271,9 @@
       "slot": 4,
       "style": "informative",
       "angle": "practical tip",
-      "text": "Hosting tip: put out small bowls for each of the six Snack Box flavours, then let everyone rank their picks. It makes tasting—and finding a millet-based favourite—much easier.",
-      "why": "Turns the six-flavour sampler into a practical tasting activity.",
+      "theme": "Everyday snack moments",
+      "text": "Desk-snack tip: portion your snack before the first email spiral begins. Keep chips for the crunchy mood and cookies for the chai mood—future you will appreciate the planning.",
+      "why": "Offers a practical portioning tip for everyday desk and chai breaks.",
       "revised": false,
       "revisionReason": "",
       "originalText": ""
@@ -252,8 +282,9 @@
       "slot": 5,
       "style": "promotional",
       "angle": "occasion or use-case",
-      "text": "Desk craving at 4? Keep the six-flavour Snack Box nearby for millet-based chips and cookies made without maida or palm oil. Order yours through Instagram.",
-      "why": "Places the Snack Box in a relatable snack moment with a direct CTA.",
+      "theme": "Hyderabad roots",
+      "text": "Made in Hyderabad, ready for your evening chai scene. Bring home the six-flavour Snack Box and let everyone find their favourite. Find us on Instagram.",
+      "why": "Connects Hyderabad roots with a warm, shareable chai-time occasion.",
       "revised": false,
       "revisionReason": "",
       "originalText": ""
@@ -262,8 +293,9 @@
       "slot": 6,
       "style": "engaging",
       "angle": "fill in the blank",
-      "text": "Fill in the blank: My first pick from a six-flavour Hyderabad-made Snack Box would always be the one that tastes ______.",
-      "why": "Invites flavour discovery while highlighting Hyderabad origin and six choices.",
+      "theme": "Sampler promotion",
+      "text": "Fill in the blank: My Snack Box flavour ranking would cause family drama because ________. Six flavours are ready to be judged—discover the sampler on our website or Instagram.",
+      "why": "Uses a reply-friendly prompt while spotlighting the six-flavour sampler.",
       "revised": false,
       "revisionReason": "",
       "originalText": ""
@@ -272,8 +304,9 @@
       "slot": 7,
       "style": "witty",
       "angle": "wordplay on the product or category",
-      "text": "Millet us be honest: choosing one favourite from six flavours is serious snack business. Good thing the Snack Box understands commitment issues.",
-      "why": "Uses millet wordplay around the six-flavour sampler.",
+      "theme": "Snack Box discovery",
+      "text": "Choosing one flavour? That’s a snackrilege. The Snack Box brings six to the table, so your taste buds can hold a proper meeting.",
+      "why": "Uses category wordplay to frame six-flavour discovery as a happy dilemma.",
       "revised": false,
       "revisionReason": "",
       "originalText": ""
@@ -282,52 +315,55 @@
       "slot": 8,
       "style": "informative",
       "angle": "how-to in 2-3 steps",
-      "text": "Build a simple Snack Box tasting: 1) Open one flavour at a time. 2) Pair the chips or cookies with your usual chai break. 3) Note which of the six earns a repeat opening.",
-      "why": "Offers a useful three-step way to sample the six flavours.",
-      "revised": false,
-      "revisionReason": "",
-      "originalText": ""
+      "theme": "Millet-based chips and cookies",
+      "text": "How to share a Snack Box: 1. Put all six flavours out. 2. Pass the millet-based chips and cookies around. 3. Trade until everyone finds a favourite. Simple, na?",
+      "why": "Gives a quick how-to for choosing between savoury and sweet millet snacks.",
+      "revised": true,
+      "revisionReason": "Repeats tweet two’s chips-versus-cookies choice too closely.",
+      "originalText": "How to handle two snack moods: 1. Pick millet-based chips when you want crunch. 2. Pick millet-based cookies when chai needs company. 3. Keep both nearby. Simple, na?"
     },
     {
       "slot": 9,
       "style": "promotional",
       "angle": "what makes it different (only from the brief)",
-      "text": "Made in Hyderabad. Millet-based. No maida. No palm oil. And six flavours ready to explore in one Snack Box. Choose your sampler on our website.",
-      "why": "Spotlights only the brand’s stated differentiators and origin.",
-      "revised": false,
-      "revisionReason": "",
-      "originalText": ""
+      "theme": "No maida, no palm oil",
+      "text": "Crunchy chips, chai-ready cookies, six flavours to explore. All millet-based, with no maida and no palm oil. Meet the Snack Box on our website.",
+      "why": "Clearly presents the product attributes and sampler as the point of difference.",
+      "revised": true,
+      "revisionReason": "Accurate but list-like and forgettable for a promotional post.",
+      "originalText": "Millet-based chips and cookies. No maida. No palm oil. Six flavours packed into one easy sampler. Pick your Snack Box on our website."
     },
     {
       "slot": 10,
       "style": "promotional",
       "angle": "easy first step to try or buy",
-      "text": "First taste, sorted: one Snack Box, six flavours of our Hyderabad-made millet snacks. Message us on Instagram to start sampling.",
-      "why": "Makes the sampler an easy first step and points to a direct sales channel.",
-      "revised": true,
-      "revisionReason": "Repeats flagged product phrasing used across other tweets.",
-      "originalText": "Curious about our millet-based chips and cookies? Start with one box, six flavours and plenty of tasting possibilities. Message us on Instagram to try the Snack Box."
+      "theme": "Everyday snack moments",
+      "text": "Start with one box for chai breaks, desk cravings and passing around at home. The six-flavour Snack Box makes trying the range easy—order through Instagram.",
+      "why": "Positions the sampler as an easy first purchase for familiar snack moments.",
+      "revised": false,
+      "revisionReason": "",
+      "originalText": ""
     }
   ],
   "checks": {
     "perTweet": [
       {
         "slot": 1,
-        "length": 193,
+        "length": 159,
         "emoji": 0,
         "hashtags": 0,
         "issues": []
       },
       {
         "slot": 2,
-        "length": 115,
+        "length": 116,
         "emoji": 1,
         "hashtags": 0,
         "issues": []
       },
       {
         "slot": 3,
-        "length": 133,
+        "length": 93,
         "emoji": 0,
         "hashtags": 0,
         "issues": []
@@ -341,28 +377,28 @@
       },
       {
         "slot": 5,
-        "length": 154,
+        "length": 151,
         "emoji": 0,
         "hashtags": 0,
         "issues": []
       },
       {
         "slot": 6,
-        "length": 120,
+        "length": 176,
         "emoji": 0,
         "hashtags": 0,
         "issues": []
       },
       {
         "slot": 7,
-        "length": 144,
+        "length": 128,
         "emoji": 0,
         "hashtags": 0,
         "issues": []
       },
       {
         "slot": 8,
-        "length": 170,
+        "length": 160,
         "emoji": 0,
         "hashtags": 0,
         "issues": []
@@ -376,7 +412,7 @@
       },
       {
         "slot": 10,
-        "length": 128,
+        "length": 156,
         "emoji": 0,
         "hashtags": 0,
         "issues": []

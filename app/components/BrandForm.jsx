@@ -4,6 +4,13 @@ import { AutoTextarea, Button, Card, Counter, Spinner } from './ui.jsx';
 
 export const OBJECTIVES = ['Engagement', 'Promotion', 'Awareness', 'Product launch'];
 
+// Saved results in public/samples/. Each is a real run, so viewing one costs nothing.
+export const SAMPLES = [
+  { key: 'zomato', label: 'Zomato (with real posts)' },
+  { key: 'cred', label: 'CRED (name only)' },
+  { key: 'millet', label: 'Millet snacks (no name)' },
+];
+
 const field = 'w-full rounded-lg border border-line bg-surface px-3 py-2 text-sm placeholder:text-slate-400 focus-visible:outline-2 focus-visible:outline-offset-0 focus-visible:outline-brand';
 
 function Field({ id, label, hint, optional, required, value, max, children }) {
@@ -40,13 +47,15 @@ export default function BrandForm({ values, setValues, onSubmit, onExample, onSa
           <span className="text-sm font-medium">Not sure where to start?</span>
           <Button onClick={() => onExample('zomato')} disabled={busy}>Try an example: Zomato</Button>
           <Button onClick={() => onExample('millet')} disabled={busy}>Try an example: Millet snacks</Button>
-          <span className="text-sm text-muted">
-            or{' '}
-            <button type="button" onClick={() => onSample('zomato')} className="font-medium text-brand underline underline-offset-2 hover:text-brand-dark" disabled={busy}>
-              see a sample result
+        </div>
+        <div className="mb-5 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm">
+          <span className="text-muted">Or see a sample result (instant, no API call):</span>
+          {SAMPLES.map((s) => (
+            <button key={s.key} type="button" onClick={() => onSample(s.key)} disabled={busy}
+              className="font-medium text-brand underline underline-offset-2 hover:text-brand-dark disabled:text-slate-400">
+              {s.label}
             </button>
-            <span className="hidden sm:inline"> (instant, no API call)</span>
-          </span>
+          ))}
         </div>
 
         <div className="grid gap-5 sm:grid-cols-2">
