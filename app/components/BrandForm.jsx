@@ -78,7 +78,7 @@ export default function BrandForm({ values, setValues, onSubmit, onExample, onSa
         <div className="mt-5 grid gap-5 sm:grid-cols-2">
           <Field id="website" label="Website" optional value={values.website} max={INPUT_LIMITS.website}
             hint="Helps research find the right brand when the name is common.">
-            <input id="website" type="url" inputMode="url" className={field} value={values.website} maxLength={INPUT_LIMITS.website} onChange={set('website')} placeholder="e.g. https://www.zomato.com" autoComplete="off" />
+            <input id="website" type="text" inputMode="url" className={field} value={values.website} maxLength={INPUT_LIMITS.website} onChange={set('website')} placeholder="e.g. zomato.com" autoComplete="off" />
           </Field>
           <Field id="audience" label="Target audience" optional value={values.audience} max={INPUT_LIMITS.audience}
             hint="If you fill this in, the card uses it as given.">

@@ -813,6 +813,10 @@ await test('tone edits show a note next to the summary', async () => {
   assert.equal(toneChanged(c, undefined), false);
   assert.ok((await src('../app/components/VoiceCardView.jsx')).includes('Tone changed. Check the summary still matches.'));
 });
+await test('the website field accepts a bare domain (a type="url" input would block the form without https://)', async () => {
+  const form = await src('../app/components/BrandForm.jsx');
+  assert.ok(form.includes('id="website" type="text"') && !form.includes('type="url"'));
+});
 await test('past-posts hint', async () => {
   assert.ok((await src('../app/components/BrandForm.jsx')).includes("Paste 3-10 of the brand's real posts, ideally its best-performing ones."));
 });
